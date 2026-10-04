@@ -52,6 +52,9 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     const revision = engine.sessionRevision;
     await engine.request('/api/streams?' + new URLSearchParams({name: cameras[0].alias + '_compatible', src: `ffmpeg:${cameras[0].alias}#video=h264#audio=opus`}), {method: 'PUT'});
     await engine.awaitPersist(revision);
+    const audioRevision = engine.sessionRevision;
+    await engine.request('/api/streams?' + new URLSearchParams({name: 'audio_only', src: `ffmpeg:${fixture.replaceAll('\\', '/')}#audio=copy`}), {method: 'PUT'});
+    await engine.awaitPersist(audioRevision);
     gateway = await createGateway({uiDir: path.join(__dirname, '../../ui'), engine, logs: engine.logs, allowedSource: src => Object.hasOwn(engine.saved.streams, src)});
     await context.addCookies([{url: gateway.origin, name: 'mi_session', value: gateway.token, httpOnly: true, sameSite: 'Strict'}]);
     await page.addInitScript(({cameras}) => {
@@ -69,6 +72,11 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     expect(await page.evaluate(() => [...document.querySelectorAll('video')].every(v => v.muted))).toBe(true);
     await page.screenshot({path: 'test-results/real-synthetic-16.png'});
     await page.locator('#layouts button[data-layout="1"]').click();
+    // Real audio-only MSE negotiation must recover through the compatible source.
+    await page.locator('mi-player').evaluate(p => {
+      p.wsURL = 'ws' + location.origin.slice(4) + '/api/ws?src=audio_only'; p.retry();
+    });
+    await expect.poll(() => page.locator('mi-player').evaluate(p => p.usingCompatible && p.video.videoWidth === 320 && p.video.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 30000}).toBe(true);
     await page.locator('.tile-footer select').selectOption('compatible');
     await expect.poll(() => page.locator('video').evaluate(v => v.getVideoPlaybackQuality().totalVideoFrames), {timeout: 30000}).toBeGreaterThan(3);
     await page.locator('.tile-footer').getByRole('button', {name: '打开声音', exact: true}).click();

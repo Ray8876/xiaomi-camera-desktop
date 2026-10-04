@@ -25,6 +25,14 @@ export class MiPlayer extends VideoRTC {
   }
   onopen() {
     const result = super.onopen(); this.status('正在连接…'); this.report('connected');
+    const onMse = this.onmessage.mse;
+    this.onmessage.mse = msg => {
+      // go2rtc can negotiate audio successfully even when no video codec matches.
+      if (msg.type === 'mse' && !/\b(?:avc1|avc3|hvc1|hev1|vp09|av01)\b/i.test(String(msg.value))) {
+        this.report('video_codec_unavailable'); this.compatible(); return;
+      }
+      onMse(msg);
+    };
     this.onmessage.desktop = msg => {
       if (msg.type !== 'error') return;
       this.report('stream_error');

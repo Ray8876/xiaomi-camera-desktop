@@ -178,7 +178,7 @@ async function handle(action, payload) {
       shell.showItemInFolder(result.filePath); return {ok: true};
     }
     case 'player-event': {
-      const events = ['connected', 'reconnecting', 'decode_error', 'stream_error', 'playing', 'stalled', 'muted', 'unmuted'];
+      const events = ['connected', 'reconnecting', 'decode_error', 'stream_error', 'video_codec_unavailable', 'playing', 'stalled', 'muted', 'unmuted'];
       if (events.includes(payload?.event)) logs.write('info', 'player_' + payload.event, {slot: Number.isInteger(payload.slot) ? payload.slot : -1, code: Number.isInteger(payload.code) ? payload.code : undefined});
       return {};
     }
