@@ -8,8 +8,8 @@ class Logs {
   addSecrets(values) {
     for (const value of values) if (typeof value === 'string' && value.length >= 3) this.secrets.add(value);
   }
-  redact(text) {
-    let s = String(text).slice(0, 32000);
+  redact(text, limit = 32000) {
+    let s = String(text).slice(0, limit);
     for (const value of [...this.secrets].sort((a, b) => b.length - a.length)) s = s.split(value).join('[redacted]');
     return s.replace(/(?:https?|rtsp|xiaomi|wss?):\/\/[^\s"'<>]+/gi, '[url]')
       .replace(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, '[ip]')
@@ -49,7 +49,7 @@ class Logs {
     zip.append('时间为 UTC ISO 8601。此包不含登录会话、密码、配置、设备地址或设备名称。\n', {name: 'README.txt'});
     for (const name of fs.readdirSync(this.dir)) {
       if (!/^\d{4}-\d{2}-\d{2}\.jsonl$/.test(name)) continue;
-      zip.append(this.redact(fs.readFileSync(path.join(this.dir, name), 'utf8')), {name: `logs/${name}`});
+      zip.append(this.redact(fs.readFileSync(path.join(this.dir, name), 'utf8'), Infinity), {name: `logs/${name}`});
     }
     await zip.finalize(); await done;
     fs.renameSync(`${target}.tmp`, target);

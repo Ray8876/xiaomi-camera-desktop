@@ -37,10 +37,14 @@ test('diagnostic ZIP includes sanitized logs without session/config files', asyn
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-export-'));
   try {
     const logs = new Logs(path.join(dir, 'logs')); logs.write('info', 'started', {password: 'my-secret'});
+    for (let i = 0; i < 500; i++) logs.write('info', 'reconnecting', {slot: i % 16, message: 'connection retry diagnostic'});
     const target = path.join(dir, 'diagnostic.zip'); await logs.export(target, {version: 'test', cameraCount: 2});
     const AdmZip = require('adm-zip'); const zip = new AdmZip(target);
     assert.ok(zip.getEntries().every(e => !/session|\.yaml|settings/.test(e.entryName)));
     assert.ok(zip.getEntries().every(e => !zip.readAsText(e).includes('my-secret')));
     assert.equal(JSON.parse(zip.readAsText('diagnostics.json')).cameraCount, 2);
+    const entry = zip.getEntries().find(e => e.entryName.endsWith('.jsonl'));
+    const rows = zip.readAsText(entry).trim().split('\n').map(row => JSON.parse(row));
+    assert.equal(rows.length, 501, 'Export must retain the complete daily log beyond 32 KiB');
   } finally {fs.rmSync(dir, {recursive: true, force: true});}
 });

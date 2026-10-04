@@ -1,4 +1,4 @@
-const {test, expect} = require('@playwright/test');
+const {test: base, expect, _electron} = require('@playwright/test');
 const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
@@ -9,6 +9,16 @@ const {Logs} = require('../../desktop/logs.cjs');
 const {createGateway} = require('../../desktop/gateway.cjs');
 const engineDir = path.join(__dirname, '../../resources', `${process.platform}-${process.arch}`);
 const ffmpeg = path.join(engineDir, process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg');
+const test = base.extend({
+  context: async ({}, use) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-electron-playback-'));
+    const client = await _electron.launch({executablePath: require('electron'), args: [path.join(__dirname, 'electron-harness.cjs')],
+      env: {...process.env, MI_TEST_USER_DATA: dir}});
+    try {await client.firstWindow(); await use(client.context());}
+    finally {await client.close(); fs.rmSync(dir, {recursive: true, force: true});}
+  },
+  page: async ({context}, use) => {await use(context.pages()[0]);}
+});
 test('real bundled engine decodes sixteen synthetic videos and compatible audio/video', async ({page, context}) => {
   test.setTimeout(90000);
   test.skip(!fs.existsSync(ffmpeg), 'Build the platform FFmpeg first');
@@ -53,6 +63,7 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
       }};
     }, {cameras});
     await page.goto(gateway.origin);
+    expect(await page.evaluate(() => MediaSource.isTypeSupported('video/mp4; codecs="avc1.640029"')), 'The shipped Electron must decode H.264').toBe(true);
     await expect(page.locator('video')).toHaveCount(16);
     await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('video')].filter(v => v.videoWidth === 320 && v.getVideoPlaybackQuality().totalVideoFrames >= 3).length), {timeout: 45000}).toBe(16);
     expect(await page.evaluate(() => [...document.querySelectorAll('video')].every(v => v.muted))).toBe(true);
@@ -66,7 +77,7 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     await expect.poll(() => page.locator('video').evaluate(v => v.readyState >= 2 && v.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 15000}).toBe(true);
     await page.screenshot({path: 'test-results/real-compatible.png'});
   } catch(error) {
-    console.log('VIDEO_DIAGNOSTICS', await page.evaluate(() => [...document.querySelectorAll('mi-player')].map(p => ({slot: p.slot, frames: p.video?.getVideoPlaybackQuality().totalVideoFrames, error: p.video?.error?.code, compatible: p.usingCompatible, status: p.wsState, pc: p.pcState, source: p.wsURL}))).catch(() => []));
+    console.log('VIDEO_DIAGNOSTICS', await page.evaluate(() => [...document.querySelectorAll('mi-player')].map(p => ({slot: p.slotIndex, frames: p.video?.getVideoPlaybackQuality().totalVideoFrames, error: p.video?.error?.code, ready: p.video?.readyState, codecs: p.mseCodecs, compatible: p.usingCompatible, status: p.wsState}))).catch(() => []));
     fs.mkdirSync('test-results/synthetic-logs', {recursive: true});
     fs.cpSync(path.join(dir, 'logs'), 'test-results/synthetic-logs', {recursive: true}); throw error;
   } finally {await page.close(); gateway?.close(); await engine.stop(); fs.rmSync(dir, {recursive: true, force: true});}
