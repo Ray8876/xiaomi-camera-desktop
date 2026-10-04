@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mi Camera Desktop</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+  <section id="login" class="login-shell" hidden>
+    <div class="login-story">
+      <div class="wordmark"><img src="/logo.svg" alt=""><span>Mi Camera <small>Desktop</small></span></div>
+      <div class="story-content"><span class="eyebrow">你的摄像头，一眼尽览</span><h1>熟悉的家。<br>更自在的视野。</h1><p>把小米摄像头放在同一个屏幕。<br>打开就看，安心在场。</p>
+        <div class="preview-wall" aria-hidden="true"><div class="preview p1"><i></i><span>客厅 <b>LIVE</b></span></div><div class="preview p2"><i></i><span>门口 <b>LIVE</b></span></div><div class="preview p3"><i></i><span>书房 <b>LIVE</b></span></div><div class="preview p4"><i></i><span>阳台 <b>LIVE</b></span></div></div>
+      </div><p class="story-foot">最多 16 路画面 · 默认静音 · 自动恢复上次画面</p>
+    </div>
+    <div class="login-panel"><div class="login-card"><span class="eyebrow">欢迎回来</span><h2>登录小米账号</h2><p class="subtle">使用与米家 App 相同的账号和地区。</p>
+      <form id="login-form">
+        <div id="credentials"><label>小米账号<input name="username" autocomplete="username" placeholder="手机号 / 邮箱 / 小米 ID" required maxlength="200"></label><label>密码<div class="password-field"><input name="password" type="password" autocomplete="current-password" placeholder="请输入密码" required maxlength="200"><button type="button" id="show-password" aria-label="显示密码">显示</button></div></label></div>
+        <div id="challenge" hidden><img id="captcha-image" alt="小米图形验证码" hidden><p id="challenge-hint" class="subtle"></p><label>验证码<input id="challenge-code" autocomplete="one-time-code" maxlength="30" placeholder="请输入验证码"></label><button id="back-login" type="button" class="text-button">重新输入账号密码</button></div>
+        <label id="login-region-label">米家地区<select id="login-region"><option value="cn">中国大陆</option><option value="sg">新加坡</option><option value="de">欧洲</option><option value="i2">印度</option><option value="us">美国</option><option value="ru">俄罗斯</option></select></label>
+        <p class="secure-note">登录状态由系统加密保存，下次打开即可播放。</p><p id="login-error" class="inline-error" role="alert" hidden></p><button type="submit" id="login-submit" class="primary full">登录并查看摄像头 <span>→</span></button>
+      </form><div class="login-divider"><span>已有 go2rtc 登录</span></div><button id="import-login" class="secondary full">导入本机登录缓存</button><p class="login-footer">仅连接你的小米账号和摄像头。<br>密码不会写入设置或诊断日志。</p><button class="text-button" id="login-logs">遇到问题？导出日志</button>
+    </div></div>
+  </section>
+  <div id="dashboard" class="app-shell" hidden>
+    <aside class="rail"><img src="/logo.svg" class="rail-logo" alt="Mi Camera"><button class="rail-button active" title="摄像头" aria-label="摄像头">▦</button><div class="rail-bottom"><button id="settings-open" class="rail-button" title="设置" aria-label="设置">⚙</button><span class="rail-version">0.1</span></div></aside>
+    <main class="workspace">
+      <header class="topbar"><div><div class="title-line"><h1>我的摄像头</h1><span id="camera-count" class="count-badge">0</span></div><p id="dashboard-subtitle">连接你在意的每一处</p></div><div class="top-actions"><span class="saved-indicator"><i></i> 自动保存</span><button id="refresh" class="secondary">↻ 刷新设备</button><button id="fullscreen" class="secondary">⛶ 全屏</button></div></header>
+      <div class="viewbar"><div class="layout-label">画面布局</div><div id="layouts" class="segmented" role="group" aria-label="画面布局"></div><span class="viewbar-spacer"></span><button id="mute-all" class="text-button">全部静音</button><button id="fill-slots" class="text-button">自动填入</button><button id="choose-cameras" class="secondary compact">管理画面</button></div>
+      <div id="banner" class="banner" role="status" hidden><span></span><button id="banner-close" aria-label="关闭提示">×</button></div>
+      <div id="wall" class="camera-wall"></div>
+      <footer class="statusbar"><span id="wall-status">默认静音 · 双击画面放大</span><span>Esc 退出全屏 <b>·</b> F11 全屏</span></footer>
+    </main>
+  </div>
+  <dialog id="settings-dialog"><div class="dialog-head"><div><span class="eyebrow">按你的习惯</span><h2>设置</h2></div><button class="dialog-close" data-close="settings-dialog" aria-label="关闭设置">×</button></div><div class="settings-body">
+    <h3>启动与播放</h3><label class="setting-row"><span><b>开机自启</b><small>登录电脑后自动打开客户端</small></span><input type="checkbox" id="auto-start" class="switch"></label>
+    <label class="setting-row"><span><b>启动后自动全屏</b><small>每次打开客户端时进入全屏</small></span><input type="checkbox" id="auto-fullscreen" class="switch"></label>
+    <label class="setting-row"><span><b>记住声音状态</b><small>恢复你上次为每个画面设置的声音开关</small></span><input type="checkbox" id="remember-audio" class="switch"></label>
+    <label class="setting-row"><span><b>画面显示</b><small>完整画面保留比例，铺满画面会裁切边缘</small></span><select id="fit"><option value="contain">完整画面</option><option value="cover">铺满画面</option></select></label>
+    <label class="setting-row"><span><b>默认清晰度</b><small>兼容模式可处理不支持直接解码的画面</small></span><select id="default-quality"><option value="auto">自动</option><option value="hd">高清</option><option value="sd">流畅</option><option value="compatible">兼容播放</option></select></label>
+    <h3>账号与诊断</h3><label class="setting-row"><span><b>米家地区</b><small>应与米家 App 的地区一致</small></span><select id="settings-region"><option value="cn">中国大陆</option><option value="sg">新加坡</option><option value="de">欧洲</option><option value="i2">印度</option><option value="us">美国</option><option value="ru">俄罗斯</option></select></label>
+    <div class="setting-row"><span><b>诊断日志</b><small>保留最近 30 天，自动清理，可导出交给维护者分析</small></span><button id="export-logs" class="secondary compact">导出日志</button></div>
+    <div class="setting-row"><span><b>退出小米账号</b><small>清除本机登录缓存和已选画面</small></span><button id="logout" class="danger-button">退出登录</button></div>
+    <p class="about" id="about"></p><p class="subtle small">兼容播放使用电脑进行转码，多路高清播放的流畅度取决于电脑性能、摄像头和网络。</p>
+  </div><div class="dialog-foot"><button class="primary" id="settings-save">保存设置</button></div></dialog>
+  <dialog id="cameras-dialog"><div class="dialog-head"><div><span class="eyebrow">安排你的视野</span><h2>管理画面</h2></div><button class="dialog-close" data-close="cameras-dialog" aria-label="关闭管理画面">×</button></div><p class="subtle dialog-description">为每一格选择摄像头，切换布局会保留其他格子的选择。</p><div id="slot-editor"></div><div class="dialog-foot"><button id="cameras-save" class="primary">应用画面</button></div></dialog>
+  <dialog id="confirm-dialog"><div class="dialog-head"><h2>退出登录？</h2></div><p class="dialog-description subtle">本机的登录缓存和画面选择会被清除，下次需要重新登录。</p><div class="dialog-foot"><button class="secondary" data-close="confirm-dialog">取消</button><button id="confirm-logout" class="danger-button">退出登录</button></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script type="module" src="/app.js"></script>
+</body></html>

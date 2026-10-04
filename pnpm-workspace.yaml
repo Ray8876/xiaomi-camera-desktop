@@ -1,0 +1,10 @@
+packages:
+  - '.'
+overrides:
+  '@electron/node-gyp': 10.2.0-electron.2
+onlyBuiltDependencies:
+  - electron
+  - app-builder-bin
+allowBuilds:
+  electron: set this to true or false
+  electron-winstaller: set this to true or false

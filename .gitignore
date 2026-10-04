@@ -1,0 +1,12 @@
+node_modules/
+dist/
+resources/win32-*/
+resources/darwin-*/
+resources/linux-*/
+work/
+test-results/
+playwright-report/
+.DS_Store
+*.enc
+*.log
+*.jsonl
