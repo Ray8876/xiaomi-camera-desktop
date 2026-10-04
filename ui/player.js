@@ -1,11 +1,11 @@
 import {VideoRTC} from './video-rtc.js';
 export class MiPlayer extends VideoRTC {
   constructor() {
-    super(); this.mode = 'mse,webrtc'; this.pcConfig.iceServers = [];
+    super(); this.mode = 'mse'; this.pcConfig.iceServers = [];
     this.visibilityCheck = false; this.DISCONNECT_TIMEOUT = 0;
     this.attempts = 0; this.disposed = false; this.wantedMuted = true;
   }
-  report(event, code) {window.mi?.invoke('player-event', {slot: this.slot, event, code});}
+  report(event, code) {window.mi?.invoke('player-event', {slot: this.slotIndex, event, code});}
   status(text) {this.dispatchEvent(new CustomEvent('player-status', {detail: text}));}
   oninit() {
     super.oninit(); this.video.controls = false; this.video.muted = this.wantedMuted;
@@ -28,7 +28,7 @@ export class MiPlayer extends VideoRTC {
     this.onmessage.desktop = msg => {
       if (msg.type !== 'error') return;
       this.report('stream_error');
-      if (/codec|unsupported|not supported|mse/i.test(String(msg.value))) this.compatible();
+      if (/codecs? not matched|unsupported codec|codec.*not supported|not supported/i.test(String(msg.value))) this.compatible();
       else this.status('连接暂时不可用，正在重试…');
     };
     return result;

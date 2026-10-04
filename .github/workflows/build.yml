@@ -43,11 +43,21 @@ jobs:
           go-version: '1.25.0'
           cache-dependency-path: engine/go.sum
       - run: pnpm install --frozen-lockfile
+      - uses: actions/cache@v4
+        id: ffmpeg-cache
+        with:
+          path: |
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/ffmpeg*
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/FFmpeg-*.txt
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/*-LICENSE.txt
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/manifest.json
+          key: ffmpeg-${{ matrix.platform }}-${{ matrix.arch }}-${{ hashFiles('scripts/build-ffmpeg-mac.cjs', 'scripts/fetch-ffmpeg.cjs') }}
       - run: pnpm run engine
       - name: Mac compiler dependencies
-        if: matrix.platform == 'darwin'
+        if: matrix.platform == 'darwin' && steps.ffmpeg-cache.outputs.cache-hit != 'true'
         run: brew install pkgconf nasm
       - run: pnpm run ffmpeg
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
       - run: pnpm run check
       - run: pnpm test
       - name: Engine regression tests
@@ -59,6 +69,8 @@ jobs:
         run: pnpm exec playwright test
       - name: Package clients
         run: pnpm build ${{ matrix.target }} --publish never
+      - name: Packaged native client smoke
+        run: node scripts/smoke-packaged.cjs
       - name: Artifact checksums
         run: node scripts/checksums.cjs
       - uses: actions/upload-artifact@v4

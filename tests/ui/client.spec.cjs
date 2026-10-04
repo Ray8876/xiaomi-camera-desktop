@@ -76,6 +76,6 @@ test('all layouts fit viewport and camera names are rendered as text', async ({p
   await fixture(page); await page.setViewportSize({width: 1000, height: 650});
   for (const n of [1, 2, 4, 6, 9, 12, 16]) {
     await page.locator(`#layouts button[data-layout="${n}"]`).click(); await expect(page.locator('.camera-tile')).toHaveCount(n);
-    const box = await page.locator('.camera-tile').last().boundingBox(); expect(box.y + box.height).toBeLessThanOrEqual(650);
+    await expect.poll(async () => {const box = await page.locator('.camera-tile').last().boundingBox(); return box ? box.y + box.height : Infinity;}).toBeLessThanOrEqual(650);
   }
 });

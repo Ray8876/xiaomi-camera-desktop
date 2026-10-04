@@ -108,7 +108,9 @@ async function boot() {
   win.on('close', () => logs.write('info', 'window_closed'));
   ipcMain.handle('mi', (event, action, payload) => {
     if (event.sender !== win.webContents || event.senderFrame.url !== gateway.origin + '/') throw new Error('Unauthorized caller');
-    const job = serial.then(() => handle(action, payload)); serial = job.catch(() => {});
+    const immediate = ['profile', 'settings', 'fullscreen', 'player-event', 'logs'].includes(action);
+    const job = immediate ? handle(action, payload) : serial.then(() => handle(action, payload));
+    if (!immediate) serial = job.catch(() => {});
     return job.catch(err => {logs.write('warn', 'operation_failed', {action, message: err.message}); return {error: err.message};});
   });
   await win.loadURL(gateway.origin + '/');

@@ -54,7 +54,13 @@ func (a *Args) HasFilters(filters ...string) bool {
 func (a *Args) String() string {
 	b := bytes.NewBuffer(make([]byte, 0, 512))
 
-	b.WriteString(a.Bin)
+	if strings.ContainsAny(a.Bin, " \t\r\n") {
+		b.WriteByte('"')
+		b.WriteString(a.Bin)
+		b.WriteByte('"')
+	} else {
+		b.WriteString(a.Bin)
+	}
 
 	if a.Global != "" {
 		b.WriteByte(' ')

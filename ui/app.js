@@ -55,11 +55,12 @@ function renderWall() {
   $('wall-status').textContent = `${settings.layout} 格画面 · 双击画面放大 · 状态自动保存`;
 }
 function renderTile(index) {
+  const existing = $('wall').querySelector(`[data-slot="${index}"]`);
   const slot = settings.slots[index], camera = profile.cameras.find(c => c.alias === slot.alias);
   const tile = document.createElement('article'); tile.className = 'camera-tile'; tile.dataset.slot = index;
   const stage = document.createElement('div'); stage.className = 'tile-stage'; tile.append(stage);
   if (camera) {
-    const player = document.createElement('mi-player'); player.slot = index; player.wantedMuted = slot.muted; player.fit = settings.fit;
+    const player = document.createElement('mi-player'); player.slotIndex = index; player.wantedMuted = slot.muted; player.fit = settings.fit;
     const suffix = slot.quality === 'hd' ? '_hd' : slot.quality === 'sd' ? '_sd' : '';
     player.compatibleSource = camera.alias + suffix + '_compatible';
     player.usingCompatible = slot.quality === 'compatible';
@@ -75,7 +76,7 @@ function renderTile(index) {
     const footer = document.createElement('div'); footer.className = 'tile-footer';
     const name = document.createElement('span'); name.className = 'tile-name'; name.textContent = camera.name; name.title = camera.name;
     const quality = select(Object.entries(qualityNames), slot.quality, `${camera.name}清晰度`);
-    quality.addEventListener('change', () => {slot.quality = quality.value; save(); renderWall();});
+    quality.addEventListener('change', () => {slot.quality = quality.value; save(); renderTile(index);});
     const audio = button(slot.muted ? '♪̸' : '♪', slot.muted ? '打开声音' : '关闭声音', () => {
       slot.muted = !slot.muted; player.mute(slot.muted); audio.textContent = slot.muted ? '♪̸' : '♪'; audio.classList.toggle('audio-on', !slot.muted); audio.title = slot.muted ? '打开声音' : '关闭声音'; audio.setAttribute('aria-label', audio.title); save();
     }); audio.classList.toggle('audio-on', !slot.muted);
@@ -86,7 +87,8 @@ function renderTile(index) {
     const text = document.createElement('p'); text.textContent = slot.alias ? '摄像头暂未发现，可刷新设备或重新选择' : `第 ${index + 1} 格 · 选择一台摄像头`;
     const add = button('选择摄像头', '选择摄像头', () => openCameraEditor(index)); add.className = 'secondary'; empty.append(glyph, text, add); stage.append(empty);
   }
-  $('wall').append(tile);
+  if (existing) {existing.querySelector('mi-player')?.dispose(); existing.replaceWith(tile);}
+  else $('wall').append(tile);
 }
 function magnify(tile) {
   if (spotlight === tile) {tile.classList.remove('spotlight'); spotlight = null; return;}
@@ -107,7 +109,10 @@ function openCameraEditor(focusIndex = 0) {
 async function refresh() {
   if (refreshBusy) return; refreshBusy = true; $('refresh').disabled = true; $('refresh').textContent = '刷新中…';
   try {
-    await saveQueue; const next = await api('discover'); adopt(next); showProfile(); banner(''); toast(next.cameras.length ? '设备已更新' : '当前地区没有发现摄像头，可在设置中检查地区');
+    await saveQueue; const next = await api('discover');
+    const changed = JSON.stringify(profile.cameras) !== JSON.stringify(next.cameras);
+    if (changed || $('dashboard').hidden) {adopt(next); showProfile();}
+    banner(''); toast(next.cameras.length ? '设备已更新' : '当前地区没有发现摄像头，可在设置中检查地区');
   } catch (error) {banner(error.message);} finally {refreshBusy = false; $('refresh').disabled = false; $('refresh').textContent = '↻ 刷新设备';}
 }
 function resetLogin() {
@@ -146,7 +151,11 @@ $('fill-slots').onclick = () => {
   for (let i = 0; i < settings.layout; i++) settings.slots[i] = {...settings.slots[i], alias: profile.cameras[i]?.alias || null, muted: true};
   save(); renderWall(); toast('已按设备顺序填入画面');
 };
-$('mute-all').onclick = () => {settings.slots.forEach(s => s.muted = true); document.querySelectorAll('mi-player').forEach(p => p.mute(true)); save(); renderWall(); toast('所有画面已静音');};
+$('mute-all').onclick = () => {
+  settings.slots.forEach(s => s.muted = true); document.querySelectorAll('mi-player').forEach(p => p.mute(true));
+  document.querySelectorAll('.tile-footer button.audio-on').forEach(b => {b.classList.remove('audio-on'); b.textContent = '♪̸'; b.title = '打开声音'; b.setAttribute('aria-label', '打开声音');});
+  save(); toast('所有画面已静音');
+};
 $('cameras-save').onclick = () => {
   $('slot-editor').querySelectorAll('.slot-row').forEach((row, i) => {
     const alias = row.querySelector('.slot-camera').value || null;

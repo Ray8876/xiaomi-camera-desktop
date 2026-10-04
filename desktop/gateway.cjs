@@ -18,7 +18,9 @@ async function createGateway({uiDir, engine, logs, allowedSource}) {
     fs.createReadStream(path.join(uiDir, filename)).pipe(res);
   });
   const wss = new WebSocketServer({noServer: true, maxPayload: 2 * 1024 * 1024});
+  server.on('clientError', (_error, socket) => socket.destroy());
   server.on('upgrade', (req, socket, head) => {
+    socket.on('error', () => {});
     const u = new URL(req.url, origin);
     const source = u.searchParams.get('src');
     if (!authorized(req) || req.headers.origin !== origin || u.pathname !== '/api/ws' || u.searchParams.size !== 1 || !source || !allowedSource(source) || count >= 16) {socket.end('HTTP/1.1 403 Forbidden\r\n\r\n'); return;}
