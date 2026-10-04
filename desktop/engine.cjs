@@ -116,7 +116,7 @@ class Engine {
     await new Promise(resolve => {
       const timeout = setTimeout(() => {child.kill('SIGKILL'); resolve();}, 3000);
       child.once('exit', () => {clearTimeout(timeout); resolve();});
-      if (process.platform === 'win32') execFile('taskkill', ['/PID', String(child.pid), '/T', '/F'], {windowsHide: true}, () => resolve());
+      if (process.platform === 'win32') execFile('taskkill', ['/PID', String(child.pid), '/T', '/F'], {windowsHide: true}, () => {});
       else {try {process.kill(-child.pid, 'SIGTERM');} catch {child.kill();}}
     });
   }

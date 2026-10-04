@@ -16,7 +16,7 @@ jobs:
             platform: win32
             arch: x64
             target: --win --x64
-          - runner: macos-14
+          - runner: macos-15
             platform: darwin
             arch: arm64
             target: --mac --arm64
