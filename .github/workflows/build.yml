@@ -43,7 +43,7 @@ jobs:
           go-version: '1.25.0'
           cache-dependency-path: engine/go.sum
       - run: pnpm install --frozen-lockfile
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         id: ffmpeg-cache
         with:
           path: |
@@ -58,6 +58,16 @@ jobs:
         run: brew install pkgconf nasm
       - run: pnpm run ffmpeg
         if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+      - name: Cache completed FFmpeg build
+        uses: actions/cache/save@v4
+        if: steps.ffmpeg-cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/ffmpeg*
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/FFmpeg-*.txt
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/*-LICENSE.txt
+            resources/${{ matrix.platform }}-${{ matrix.arch }}/manifest.json
+          key: ${{ steps.ffmpeg-cache.outputs.cache-primary-key }}
       - run: pnpm run check
       - run: pnpm test
       - name: Engine regression tests

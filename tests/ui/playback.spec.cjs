@@ -20,7 +20,7 @@ const test = base.extend({
   page: async ({context}, use) => {await use(context.pages()[0]);}
 });
 test('real bundled engine decodes sixteen synthetic videos and compatible audio/video', async ({page, context}) => {
-  test.setTimeout(90000);
+  test.setTimeout(180000);
   test.skip(!fs.existsSync(ffmpeg), 'Build the platform FFmpeg first');
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-playback-'));
   const fixture = path.join(dir, 'synthetic.mkv');
@@ -70,7 +70,11 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     await expect(page.locator('video')).toHaveCount(16);
     await expect.poll(() => page.evaluate(() => [...document.querySelectorAll('video')].filter(v => v.videoWidth === 320 && v.getVideoPlaybackQuality().totalVideoFrames >= 3).length), {timeout: 45000}).toBe(16);
     expect(await page.evaluate(() => [...document.querySelectorAll('video')].every(v => v.muted))).toBe(true);
-    await page.screenshot({path: 'test-results/real-synthetic-16.png'});
+    const decoded = await page.evaluate(() => [...document.querySelectorAll('video')].map(v => ({width: v.videoWidth, height: v.videoHeight, frames: v.getVideoPlaybackQuality().totalVideoFrames, muted: v.muted})));
+    await test.info().attach('sixteen-decoded-streams', {body: JSON.stringify(decoded), contentType: 'application/json'});
+    // Virtual desktop screenshot APIs can hang while video decoding remains healthy.
+    // Screenshots are optional documentation; all media assertions always run.
+    if (process.env.CAPTURE_PLAYBACK_IMAGES === '1') await page.screenshot({path: 'test-results/real-synthetic-16.png'});
     await page.locator('#layouts button[data-layout="1"]').click();
     // Real audio-only MSE negotiation must recover through the compatible source.
     await page.locator('mi-player').evaluate(p => {
@@ -83,7 +87,7 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     await expect.poll(() => page.locator('video').evaluate(v => v.muted)).toBe(false);
     await page.locator('.tile-footer').getByRole('button', {name: '重新连接', exact: true}).click();
     await expect.poll(() => page.locator('video').evaluate(v => v.readyState >= 2 && v.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 15000}).toBe(true);
-    await page.screenshot({path: 'test-results/real-compatible.png'});
+    if (process.env.CAPTURE_PLAYBACK_IMAGES === '1') await page.screenshot({path: 'test-results/real-compatible.png'});
   } catch(error) {
     console.log('VIDEO_DIAGNOSTICS', await page.evaluate(() => [...document.querySelectorAll('mi-player')].map(p => ({slot: p.slotIndex, frames: p.video?.getVideoPlaybackQuality().totalVideoFrames, error: p.video?.error?.code, ready: p.video?.readyState, codecs: p.mseCodecs, compatible: p.usingCompatible, status: p.wsState}))).catch(() => []));
     fs.mkdirSync('test-results/synthetic-logs', {recursive: true});
