@@ -62,6 +62,8 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     await expect.poll(() => page.locator('video').evaluate(v => v.getVideoPlaybackQuality().totalVideoFrames), {timeout: 30000}).toBeGreaterThan(3);
     await page.locator('.tile-footer').getByRole('button', {name: '打开声音', exact: true}).click();
     await expect.poll(() => page.locator('video').evaluate(v => v.muted)).toBe(false);
+    await page.locator('.tile-footer').getByRole('button', {name: '重新连接', exact: true}).click();
+    await expect.poll(() => page.locator('video').evaluate(v => v.readyState >= 2 && v.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 15000}).toBe(true);
     await page.screenshot({path: 'test-results/real-compatible.png'});
   } catch(error) {
     console.log('VIDEO_DIAGNOSTICS', await page.evaluate(() => [...document.querySelectorAll('mi-player')].map(p => ({slot: p.slot, frames: p.video?.getVideoPlaybackQuality().totalVideoFrames, error: p.video?.error?.code, compatible: p.usingCompatible, status: p.wsState, pc: p.pcState, source: p.wsURL}))).catch(() => []));

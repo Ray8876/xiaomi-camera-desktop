@@ -29,7 +29,7 @@ export class MiPlayer extends VideoRTC {
       if (msg.type !== 'error') return;
       this.report('stream_error');
       if (/codecs? not matched|unsupported codec|codec.*not supported|not supported/i.test(String(msg.value))) this.compatible();
-      else this.status('连接暂时不可用，正在重试…');
+      else this.onclose();
     };
     return result;
   }

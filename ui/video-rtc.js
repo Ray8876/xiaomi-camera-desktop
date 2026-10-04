@@ -315,9 +315,10 @@ export class VideoRTC extends HTMLElement {
         this.connectTS = Date.now();
 
         this.ws = new WebSocket(this.wsURL);
+        const connection = this.ws;
         this.ws.binaryType = 'arraybuffer';
-        this.ws.addEventListener('open', () => this.onopen());
-        this.ws.addEventListener('close', () => this.onclose());
+        this.ws.addEventListener('open', () => {if (this.ws === connection) this.onopen();});
+        this.ws.addEventListener('close', () => {if (this.ws === connection) this.onclose();});
 
         return true;
     }
