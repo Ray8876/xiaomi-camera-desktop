@@ -87,6 +87,7 @@ async function boot() {
   Menu.setApplicationMenu(null);
   const dir = app.getPath('userData'); fs.mkdirSync(dir, {recursive: true, mode: 0o700});
   logs = new Logs(path.join(dir, 'logs'));
+  setInterval(() => logs.cleanup(), 3600000).unref();
   stateFile = path.join(dir, 'settings.json');
   try {state = normalize(JSON.parse(fs.readFileSync(stateFile, 'utf8')));} catch {state = normalize();}
   const engineDir = app.isPackaged ? path.join(process.resourcesPath, 'engine') : path.join(__dirname, '..', 'resources', `${process.platform}-${process.arch}`);
