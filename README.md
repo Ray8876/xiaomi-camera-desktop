@@ -2,6 +2,8 @@
 
 简单易用的小米摄像头客户端，支持 Windows 10/11 x64、macOS Apple 芯片及 Intel。安装包自带 go2rtc、Chromium 和 FFmpeg，安装后不需要配置服务或另外下载播放器。
 
+下载：[Windows 安装程序](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-win-x64.exe) · [Apple 芯片 Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-mac-arm64.dmg) · [Intel Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-mac-x64.dmg)。校验文件及说明见 [0.1.0 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.0)。
+
 ## 使用
 
 1. 安装并打开客户端，用米家 App 的账号和地区登录，按提示完成图形或短信/邮箱验证码。
@@ -48,4 +50,4 @@ Windows 上使用 `pnpm build --win --x64`。Intel Mac 用 `--mac --x64`。`TARG
 
 ## 验收边界
 
-界面及模拟流程测试、打包验证不能代替真实摄像头验收。当前 Windows 主机关机，原有会话导入、小米实机登录、H.265/声音、16 路负载及登录后自启仍需要主机上线后验收。详见 `docs/ACCEPTANCE.md`。
+界面及模拟流程测试、打包验证不能代替真实摄像头验收。Windows 主机已上线，可先安装客户端试用；原有会话导入、小米实机登录、H.265/声音、16 路负载及登录后自启仍待验收。现有 go2rtc 保持原样。详见 `docs/ACCEPTANCE.md`。
