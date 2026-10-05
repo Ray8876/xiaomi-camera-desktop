@@ -72,25 +72,29 @@ test('real bundled engine decodes sixteen synthetic videos and compatible audio/
     expect(await page.evaluate(() => [...document.querySelectorAll('video')].every(v => v.muted))).toBe(true);
     const decoded = await page.evaluate(() => [...document.querySelectorAll('video')].map(v => ({width: v.videoWidth, height: v.videoHeight, frames: v.getVideoPlaybackQuality().totalVideoFrames, muted: v.muted})));
     await test.info().attach('sixteen-decoded-streams', {body: JSON.stringify(decoded), contentType: 'application/json'});
+    console.log('NATIVE_PLAYBACK: all sixteen streams decoded');
     // Virtual desktop screenshot APIs can hang while video decoding remains healthy.
     // Screenshots are optional documentation; all media assertions always run.
     if (process.env.CAPTURE_PLAYBACK_IMAGES === '1') await page.screenshot({path: 'test-results/real-synthetic-16.png'});
     // This test exercises the media pipeline. Native virtual desktops may not
     // deliver animation frames required by Playwright's pointer-stability check.
     // Invoke the actual UI handlers; physical pointer flows are tested separately.
-    await page.locator('#layouts button[data-layout="1"]').evaluate(el => el.click());
-    await expect(page.locator('video')).toHaveCount(1);
+    await page.evaluate(() => document.querySelector('#layouts button[data-layout="1"]').click());
+    await expect.poll(() => page.evaluate(() => document.querySelectorAll('video').length)).toBe(1);
     // Real audio-only MSE negotiation must recover through the compatible source.
-    await page.locator('mi-player').evaluate(p => {
+    await page.evaluate(() => {
+      const p = document.querySelector('mi-player');
       p.wsURL = 'ws' + location.origin.slice(4) + '/api/ws?src=audio_only'; p.retry();
     });
-    await expect.poll(() => page.locator('mi-player').evaluate(p => p.usingCompatible && p.video.videoWidth === 320 && p.video.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 30000}).toBe(true);
-    await page.locator('.tile-footer select').evaluate(el => {el.value = 'compatible'; el.dispatchEvent(new Event('change', {bubbles: true}));});
-    await expect.poll(() => page.locator('video').evaluate(v => v.getVideoPlaybackQuality().totalVideoFrames), {timeout: 30000}).toBeGreaterThan(3);
-    await page.locator('.tile-footer').getByRole('button', {name: '打开声音', exact: true}).evaluate(el => el.click());
-    await expect.poll(() => page.locator('video').evaluate(v => v.muted)).toBe(false);
-    await page.locator('.tile-footer').getByRole('button', {name: '重新连接', exact: true}).evaluate(el => el.click());
-    await expect.poll(() => page.locator('video').evaluate(v => v.readyState >= 2 && v.getVideoPlaybackQuality().totalVideoFrames > 3), {timeout: 15000}).toBe(true);
+    await expect.poll(() => page.evaluate(() => {const p = document.querySelector('mi-player'); return p.usingCompatible && p.video.videoWidth === 320 && p.video.getVideoPlaybackQuality().totalVideoFrames > 3;}), {timeout: 30000}).toBe(true);
+    console.log('NATIVE_PLAYBACK: audio-only negotiation recovered video');
+    await page.evaluate(() => {const el = document.querySelector('.tile-footer select'); el.value = 'compatible'; el.dispatchEvent(new Event('change', {bubbles: true}));});
+    await expect.poll(() => page.evaluate(() => document.querySelector('video').getVideoPlaybackQuality().totalVideoFrames), {timeout: 30000}).toBeGreaterThan(3);
+    await page.evaluate(() => document.querySelector('.tile-footer button[aria-label="打开声音"]').click());
+    await expect.poll(() => page.evaluate(() => document.querySelector('video').muted)).toBe(false);
+    await page.evaluate(() => document.querySelector('.tile-footer button[aria-label="重新连接"]').click());
+    await expect.poll(() => page.evaluate(() => {const v = document.querySelector('video'); return v.readyState >= 2 && v.getVideoPlaybackQuality().totalVideoFrames > 3;}), {timeout: 15000}).toBe(true);
+    console.log('NATIVE_PLAYBACK: compatible video, audio toggle and reconnect passed');
     if (process.env.CAPTURE_PLAYBACK_IMAGES === '1') await page.screenshot({path: 'test-results/real-compatible.png'});
   } catch(error) {
     console.log('VIDEO_DIAGNOSTICS', await page.evaluate(() => [...document.querySelectorAll('mi-player')].map(p => ({slot: p.slotIndex, frames: p.video?.getVideoPlaybackQuality().totalVideoFrames, error: p.video?.error?.code, ready: p.video?.readyState, codecs: p.mseCodecs, compatible: p.usingCompatible, status: p.wsState}))).catch(() => []));
