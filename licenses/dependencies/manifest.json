@@ -1,0 +1,1164 @@
+[
+  {
+    "kind": "go",
+    "name": "github.com/asticode/go-astikit",
+    "version": "v0.57.1",
+    "source": "https://proxy.golang.org/github.com/asticode/go-astikit/@v/v0.57.1.zip",
+    "notices": [
+      "dependencies/go/github.com_asticode_go-astikit@v0.57.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/asticode/go-astits",
+    "version": "v1.14.0",
+    "source": "https://proxy.golang.org/github.com/asticode/go-astits/@v/v1.14.0.zip",
+    "notices": [
+      "dependencies/go/github.com_asticode_go-astits@v1.14.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/davecgh/go-spew",
+    "version": "v1.1.1",
+    "source": "https://proxy.golang.org/github.com/davecgh/go-spew/@v/v1.1.1.zip",
+    "notices": [
+      "dependencies/go/github.com_davecgh_go-spew@v1.1.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/eclipse/paho.mqtt.golang",
+    "version": "v1.5.1",
+    "source": "https://proxy.golang.org/github.com/eclipse/paho.mqtt.golang/@v/v1.5.1.zip",
+    "notices": [
+      "dependencies/go/github.com_eclipse_paho.mqtt.golang@v1.5.1/LICENSE",
+      "dependencies/go/github.com_eclipse_paho.mqtt.golang@v1.5.1/NOTICE.md"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/expr-lang/expr",
+    "version": "v1.17.7",
+    "source": "https://proxy.golang.org/github.com/expr-lang/expr/@v/v1.17.7.zip",
+    "notices": [
+      "dependencies/go/github.com_expr-lang_expr@v1.17.7/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/google/uuid",
+    "version": "v1.6.0",
+    "source": "https://proxy.golang.org/github.com/google/uuid/@v/v1.6.0.zip",
+    "notices": [
+      "dependencies/go/github.com_google_uuid@v1.6.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/gorilla/websocket",
+    "version": "v1.5.3",
+    "source": "https://proxy.golang.org/github.com/gorilla/websocket/@v/v1.5.3.zip",
+    "notices": [
+      "dependencies/go/github.com_gorilla_websocket@v1.5.3/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/kr/pretty",
+    "version": "v0.3.1",
+    "source": "https://proxy.golang.org/github.com/kr/pretty/@v/v0.3.1.zip",
+    "notices": [
+      "dependencies/go/github.com_kr_pretty@v0.3.1/License"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/mattn/go-colorable",
+    "version": "v0.1.14",
+    "source": "https://proxy.golang.org/github.com/mattn/go-colorable/@v/v0.1.14.zip",
+    "notices": [
+      "dependencies/go/github.com_mattn_go-colorable@v0.1.14/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/mattn/go-isatty",
+    "version": "v0.0.20",
+    "source": "https://proxy.golang.org/github.com/mattn/go-isatty/@v/v0.0.20.zip",
+    "notices": [
+      "dependencies/go/github.com_mattn_go-isatty@v0.0.20/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/miekg/dns",
+    "version": "v1.1.70",
+    "source": "https://proxy.golang.org/github.com/miekg/dns/@v/v1.1.70.zip",
+    "notices": [
+      "dependencies/go/github.com_miekg_dns@v1.1.70/COPYRIGHT",
+      "dependencies/go/github.com_miekg_dns@v1.1.70/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/datachannel",
+    "version": "v1.6.0",
+    "source": "https://proxy.golang.org/github.com/pion/datachannel/@v/v1.6.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_datachannel@v1.6.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/dtls/v3",
+    "version": "v3.0.10",
+    "source": "https://proxy.golang.org/github.com/pion/dtls/v3/@v/v3.0.10.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_dtls_v3@v3.0.10/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/ice/v4",
+    "version": "v4.2.0",
+    "source": "https://proxy.golang.org/github.com/pion/ice/v4/@v/v4.2.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_ice_v4@v4.2.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/interceptor",
+    "version": "v0.1.43",
+    "source": "https://proxy.golang.org/github.com/pion/interceptor/@v/v0.1.43.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_interceptor@v0.1.43/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/logging",
+    "version": "v0.2.4",
+    "source": "https://proxy.golang.org/github.com/pion/logging/@v/v0.2.4.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_logging@v0.2.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/mdns/v2",
+    "version": "v2.1.0",
+    "source": "https://proxy.golang.org/github.com/pion/mdns/v2/@v/v2.1.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_mdns_v2@v2.1.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/randutil",
+    "version": "v0.1.0",
+    "source": "https://proxy.golang.org/github.com/pion/randutil/@v/v0.1.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_randutil@v0.1.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/rtcp",
+    "version": "v1.2.16",
+    "source": "https://proxy.golang.org/github.com/pion/rtcp/@v/v1.2.16.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_rtcp@v1.2.16/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/rtp",
+    "version": "v1.10.0",
+    "source": "https://proxy.golang.org/github.com/pion/rtp/@v/v1.10.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_rtp@v1.10.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/sctp",
+    "version": "v1.9.2",
+    "source": "https://proxy.golang.org/github.com/pion/sctp/@v/v1.9.2.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_sctp@v1.9.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/sdp/v3",
+    "version": "v3.0.17",
+    "source": "https://proxy.golang.org/github.com/pion/sdp/v3/@v/v3.0.17.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_sdp_v3@v3.0.17/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/srtp/v3",
+    "version": "v3.0.10",
+    "source": "https://proxy.golang.org/github.com/pion/srtp/v3/@v/v3.0.10.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_srtp_v3@v3.0.10/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/stun/v3",
+    "version": "v3.1.1",
+    "source": "https://proxy.golang.org/github.com/pion/stun/v3/@v/v3.1.1.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_stun_v3@v3.1.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/transport/v3",
+    "version": "v3.1.1",
+    "source": "https://proxy.golang.org/github.com/pion/transport/v3/@v/v3.1.1.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_transport_v3@v3.1.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/transport/v4",
+    "version": "v4.0.1",
+    "source": "https://proxy.golang.org/github.com/pion/transport/v4/@v/v4.0.1.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_transport_v4@v4.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/turn/v4",
+    "version": "v4.1.4",
+    "source": "https://proxy.golang.org/github.com/pion/turn/v4/@v/v4.1.4.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_turn_v4@v4.1.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pion/webrtc/v4",
+    "version": "v4.2.3",
+    "source": "https://proxy.golang.org/github.com/pion/webrtc/v4/@v/v4.2.3.zip",
+    "notices": [
+      "dependencies/go/github.com_pion_webrtc_v4@v4.2.3/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/pmezard/go-difflib",
+    "version": "v1.0.0",
+    "source": "https://proxy.golang.org/github.com/pmezard/go-difflib/@v/v1.0.0.zip",
+    "notices": [
+      "dependencies/go/github.com_pmezard_go-difflib@v1.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/rs/zerolog",
+    "version": "v1.34.0",
+    "source": "https://proxy.golang.org/github.com/rs/zerolog/@v/v1.34.0.zip",
+    "notices": [
+      "dependencies/go/github.com_rs_zerolog@v1.34.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/sigurn/crc16",
+    "version": "v0.0.0-20240131213347-83fcde1e29d1",
+    "source": "https://proxy.golang.org/github.com/sigurn/crc16/@v/v0.0.0-20240131213347-83fcde1e29d1.zip",
+    "notices": [
+      "dependencies/go/github.com_sigurn_crc16@v0.0.0-20240131213347-83fcde1e29d1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/sigurn/crc8",
+    "version": "v0.0.0-20220107193325-2243fe600f9f",
+    "source": "https://proxy.golang.org/github.com/sigurn/crc8/@v/v0.0.0-20220107193325-2243fe600f9f.zip",
+    "notices": [
+      "dependencies/go/github.com_sigurn_crc8@v0.0.0-20220107193325-2243fe600f9f/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/stretchr/testify",
+    "version": "v1.11.1",
+    "source": "https://proxy.golang.org/github.com/stretchr/testify/@v/v1.11.1.zip",
+    "notices": [
+      "dependencies/go/github.com_stretchr_testify@v1.11.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/tadglines/go-pkgs",
+    "version": "v0.0.0-20210623144937-b983b20f54f9",
+    "source": "https://proxy.golang.org/github.com/tadglines/go-pkgs/@v/v0.0.0-20210623144937-b983b20f54f9.zip",
+    "notices": [
+      "dependencies/go/github.com_tadglines_go-pkgs@v0.0.0-20210623144937-b983b20f54f9/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "github.com/wlynxg/anet",
+    "version": "v0.0.5",
+    "source": "https://proxy.golang.org/github.com/wlynxg/anet/@v/v0.0.5.zip",
+    "notices": [
+      "dependencies/go/github.com_wlynxg_anet@v0.0.5/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/crypto",
+    "version": "v0.47.0",
+    "source": "https://proxy.golang.org/golang.org/x/crypto/@v/v0.47.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_crypto@v0.47.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/mod",
+    "version": "v0.32.0",
+    "source": "https://proxy.golang.org/golang.org/x/mod/@v/v0.32.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_mod@v0.32.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/net",
+    "version": "v0.49.0",
+    "source": "https://proxy.golang.org/golang.org/x/net/@v/v0.49.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_net@v0.49.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/sync",
+    "version": "v0.19.0",
+    "source": "https://proxy.golang.org/golang.org/x/sync/@v/v0.19.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_sync@v0.19.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/sys",
+    "version": "v0.40.0",
+    "source": "https://proxy.golang.org/golang.org/x/sys/@v/v0.40.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_sys@v0.40.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/time",
+    "version": "v0.14.0",
+    "source": "https://proxy.golang.org/golang.org/x/time/@v/v0.14.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_time@v0.14.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "golang.org/x/tools",
+    "version": "v0.41.0",
+    "source": "https://proxy.golang.org/golang.org/x/tools/@v/v0.41.0.zip",
+    "notices": [
+      "dependencies/go/golang.org_x_tools@v0.41.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "go",
+    "name": "gopkg.in/yaml.v3",
+    "version": "v3.0.1",
+    "source": "https://proxy.golang.org/gopkg.in/yaml.v3/@v/v3.0.1.zip",
+    "notices": [
+      "dependencies/go/gopkg.in_yaml.v3@v3.0.1/LICENSE",
+      "dependencies/go/gopkg.in_yaml.v3@v3.0.1/NOTICE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "@isaacs/cliui",
+    "version": "8.0.2",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz",
+    "notices": [
+      "dependencies/node/_isaacs_cliui@8.0.2/LICENSE.txt"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "abort-controller",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/abort-controller/-/abort-controller-3.0.0.tgz",
+    "notices": [
+      "dependencies/node/abort-controller@3.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ansi-regex",
+    "version": "6.4.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-6.4.0.tgz",
+    "notices": [
+      "dependencies/node/ansi-regex@6.4.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ansi-regex",
+    "version": "5.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.0.tgz",
+    "notices": [
+      "dependencies/node/ansi-regex@5.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ansi-regex",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
+    "notices": [
+      "dependencies/node/ansi-regex@5.0.1/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ansi-styles",
+    "version": "6.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-6.1.0.tgz",
+    "notices": [
+      "dependencies/node/ansi-styles@6.1.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ansi-styles",
+    "version": "4.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.0.0.tgz",
+    "notices": [
+      "dependencies/node/ansi-styles@4.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "archiver",
+    "version": "7.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/archiver/-/archiver-7.0.1.tgz",
+    "notices": [
+      "dependencies/node/archiver@7.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "archiver-utils",
+    "version": "5.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/archiver-utils/-/archiver-utils-5.0.2.tgz",
+    "notices": [
+      "dependencies/node/archiver-utils@5.0.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "async",
+    "version": "3.2.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/async/-/async-3.2.6.tgz",
+    "notices": [
+      "dependencies/node/async@3.2.6/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "b4a",
+    "version": "1.9.0",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/b4a/-/b4a-1.9.0.tgz",
+    "notices": [
+      "dependencies/node/b4a@1.9.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "balanced-match",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.0.tgz",
+    "notices": [
+      "dependencies/node/balanced-match@1.0.0/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "bare-events",
+    "version": "2.9.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-events/-/bare-events-2.9.2.tgz",
+    "notices": [
+      "dependencies/node/bare-events@2.9.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "bare-fs",
+    "version": "4.8.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-fs/-/bare-fs-4.8.2.tgz",
+    "notices": [
+      "dependencies/node/bare-fs@4.8.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "bare-path",
+    "version": "3.1.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-path/-/bare-path-3.1.2.tgz",
+    "notices": [
+      "dependencies/node/bare-path@3.1.2/LICENSE",
+      "dependencies/node/bare-path@3.1.2/NOTICE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "bare-stream",
+    "version": "2.13.4",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-stream/-/bare-stream-2.13.4.tgz",
+    "notices": [
+      "dependencies/node/bare-stream@2.13.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "bare-url",
+    "version": "2.5.4",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/bare-url/-/bare-url-2.5.4.tgz",
+    "notices": [
+      "dependencies/node/bare-url@2.5.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "brace-expansion",
+    "version": "2.1.7",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.1.7.tgz",
+    "notices": [
+      "dependencies/node/brace-expansion@2.1.7/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "buffer-crc32",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-1.0.0.tgz",
+    "notices": [
+      "dependencies/node/buffer-crc32@1.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "color-convert",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
+    "notices": [
+      "dependencies/node/color-convert@2.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "color-name",
+    "version": "1.1.4",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz",
+    "notices": [
+      "dependencies/node/color-name@1.1.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "compress-commons",
+    "version": "6.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/compress-commons/-/compress-commons-6.0.2.tgz",
+    "notices": [
+      "dependencies/node/compress-commons@6.0.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "core-util-is",
+    "version": "1.0.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+    "notices": [
+      "dependencies/node/core-util-is@1.0.3/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "crc-32",
+    "version": "1.2.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/crc-32/-/crc-32-1.2.2.tgz",
+    "notices": [
+      "dependencies/node/crc-32@1.2.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "crc32-stream",
+    "version": "6.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/crc32-stream/-/crc32-stream-6.0.0.tgz",
+    "notices": [
+      "dependencies/node/crc32-stream@6.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "cross-spawn",
+    "version": "7.0.6",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+    "notices": [
+      "dependencies/node/cross-spawn@7.0.6/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "eastasianwidth",
+    "version": "0.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz",
+    "upstreamNotice": "https://github.com/komagata/eastasianwidth/blob/1d41951a59d63fb2d77cda021050fc070cae424a/MIT-LICENSE.txt",
+    "notices": [
+      "dependencies/node/eastasianwidth@0.2.0/eastasianwidth-0.2.0-MIT-LICENSE.txt"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "emoji-regex",
+    "version": "9.2.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-9.2.2.tgz",
+    "notices": [
+      "dependencies/node/emoji-regex@9.2.2/LICENSE-MIT.txt"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "emoji-regex",
+    "version": "8.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
+    "notices": [
+      "dependencies/node/emoji-regex@8.0.0/LICENSE-MIT.txt"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "event-target-shim",
+    "version": "5.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/event-target-shim/-/event-target-shim-5.0.1.tgz",
+    "notices": [
+      "dependencies/node/event-target-shim@5.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "events-universal",
+    "version": "1.0.1",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/events-universal/-/events-universal-1.0.1.tgz",
+    "notices": [
+      "dependencies/node/events-universal@1.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "fast-fifo",
+    "version": "1.3.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/fast-fifo/-/fast-fifo-1.3.2.tgz",
+    "notices": [
+      "dependencies/node/fast-fifo@1.3.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "foreground-child",
+    "version": "3.1.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/foreground-child/-/foreground-child-3.1.0.tgz",
+    "notices": [
+      "dependencies/node/foreground-child@3.1.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "glob",
+    "version": "10.5.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/glob/-/glob-10.5.0.tgz",
+    "notices": [
+      "dependencies/node/glob@10.5.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "graceful-fs",
+    "version": "4.2.11",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz",
+    "notices": [
+      "dependencies/node/graceful-fs@4.2.11/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "inherits",
+    "version": "2.0.4",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+    "notices": [
+      "dependencies/node/inherits@2.0.4/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "is-fullwidth-code-point",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz",
+    "notices": [
+      "dependencies/node/is-fullwidth-code-point@3.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "is-stream",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/is-stream/-/is-stream-2.0.1.tgz",
+    "notices": [
+      "dependencies/node/is-stream@2.0.1/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "isarray",
+    "version": "1.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
+    "notices": [
+      "dependencies/node/isarray@1.0.0/README.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "isexe",
+    "version": "2.0.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
+    "notices": [
+      "dependencies/node/isexe@2.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "jackspeak",
+    "version": "3.1.2",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/jackspeak/-/jackspeak-3.1.2.tgz",
+    "notices": [
+      "dependencies/node/jackspeak@3.1.2/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "lazystream",
+    "version": "1.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/lazystream/-/lazystream-1.0.1.tgz",
+    "notices": [
+      "dependencies/node/lazystream@1.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "lodash",
+    "version": "4.18.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/lodash/-/lodash-4.18.1.tgz",
+    "notices": [
+      "dependencies/node/lodash@4.18.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "lru-cache",
+    "version": "10.2.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/lru-cache/-/lru-cache-10.2.0.tgz",
+    "notices": [
+      "dependencies/node/lru-cache@10.2.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "minimatch",
+    "version": "9.0.9",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/minimatch/-/minimatch-9.0.9.tgz",
+    "notices": [
+      "dependencies/node/minimatch@9.0.9/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "minimatch",
+    "version": "5.1.9",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/minimatch/-/minimatch-5.1.9.tgz",
+    "notices": [
+      "dependencies/node/minimatch@5.1.9/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "minipass",
+    "version": "7.1.3",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/minipass/-/minipass-7.1.3.tgz",
+    "notices": [
+      "dependencies/node/minipass@7.1.3/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "normalize-path",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz",
+    "notices": [
+      "dependencies/node/normalize-path@3.0.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "package-json-from-dist",
+    "version": "1.0.1",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/package-json-from-dist/-/package-json-from-dist-1.0.1.tgz",
+    "notices": [
+      "dependencies/node/package-json-from-dist@1.0.1/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "path-key",
+    "version": "3.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/path-key/-/path-key-3.1.1.tgz",
+    "notices": [
+      "dependencies/node/path-key@3.1.1/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "path-scurry",
+    "version": "1.11.1",
+    "license": "BlueOak-1.0.0",
+    "source": "https://registry.npmjs.org/path-scurry/-/path-scurry-1.11.1.tgz",
+    "notices": [
+      "dependencies/node/path-scurry@1.11.1/LICENSE.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "process-nextick-args",
+    "version": "2.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+    "notices": [
+      "dependencies/node/process-nextick-args@2.0.1/license.md"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "readable-stream",
+    "version": "2.3.8",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
+    "notices": [
+      "dependencies/node/readable-stream@2.3.8/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "readable-stream",
+    "version": "4.7.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/readable-stream/-/readable-stream-4.7.0.tgz",
+    "notices": [
+      "dependencies/node/readable-stream@4.7.0/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "readdir-glob",
+    "version": "1.1.2",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/readdir-glob/-/readdir-glob-1.1.2.tgz",
+    "notices": [
+      "dependencies/node/readdir-glob@1.1.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "safe-buffer",
+    "version": "5.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
+    "notices": [
+      "dependencies/node/safe-buffer@5.1.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "shebang-command",
+    "version": "2.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+    "notices": [
+      "dependencies/node/shebang-command@2.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "shebang-regex",
+    "version": "3.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/shebang-regex/-/shebang-regex-3.0.0.tgz",
+    "notices": [
+      "dependencies/node/shebang-regex@3.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "signal-exit",
+    "version": "4.1.0",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/signal-exit/-/signal-exit-4.1.0.tgz",
+    "notices": [
+      "dependencies/node/signal-exit@4.1.0/LICENSE.txt"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "streamx",
+    "version": "2.28.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/streamx/-/streamx-2.28.1.tgz",
+    "notices": [
+      "dependencies/node/streamx@2.28.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "string-width",
+    "version": "5.1.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-5.1.2.tgz",
+    "notices": [
+      "dependencies/node/string-width@5.1.2/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "string-width",
+    "version": "4.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-4.2.0.tgz",
+    "notices": [
+      "dependencies/node/string-width@4.2.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "string-width",
+    "version": "4.2.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+    "notices": [
+      "dependencies/node/string-width@4.2.3/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "strip-ansi",
+    "version": "7.2.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-7.2.0.tgz",
+    "notices": [
+      "dependencies/node/strip-ansi@7.2.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "strip-ansi",
+    "version": "6.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.0.tgz",
+    "notices": [
+      "dependencies/node/strip-ansi@6.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "strip-ansi",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
+    "notices": [
+      "dependencies/node/strip-ansi@6.0.1/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "tar-stream",
+    "version": "3.2.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/tar-stream/-/tar-stream-3.2.2.tgz",
+    "notices": [
+      "dependencies/node/tar-stream@3.2.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "teex",
+    "version": "1.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/teex/-/teex-1.0.1.tgz",
+    "notices": [
+      "dependencies/node/teex@1.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "text-decoder",
+    "version": "1.2.7",
+    "license": "Apache-2.0",
+    "source": "https://registry.npmjs.org/text-decoder/-/text-decoder-1.2.7.tgz",
+    "notices": [
+      "dependencies/node/text-decoder@1.2.7/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "util-deprecate",
+    "version": "1.0.2",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+    "notices": [
+      "dependencies/node/util-deprecate@1.0.2/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "which",
+    "version": "2.0.1",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/which/-/which-2.0.1.tgz",
+    "notices": [
+      "dependencies/node/which@2.0.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "wrap-ansi",
+    "version": "8.1.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-8.1.0.tgz",
+    "notices": [
+      "dependencies/node/wrap-ansi@8.1.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "wrap-ansi",
+    "version": "7.0.0",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz",
+    "notices": [
+      "dependencies/node/wrap-ansi@7.0.0/license"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "ws",
+    "version": "8.18.3",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/ws/-/ws-8.18.3.tgz",
+    "notices": [
+      "dependencies/node/ws@8.18.3/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "xiaomi-camera-desktop",
+    "version": "0.1.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/xiaomi-camera-desktop/-/xiaomi-camera-desktop-0.1.1.tgz",
+    "notices": [
+      "dependencies/node/xiaomi-camera-desktop@0.1.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "yaml",
+    "version": "2.8.1",
+    "license": "ISC",
+    "source": "https://registry.npmjs.org/yaml/-/yaml-2.8.1.tgz",
+    "notices": [
+      "dependencies/node/yaml@2.8.1/LICENSE"
+    ]
+  },
+  {
+    "kind": "node",
+    "name": "zip-stream",
+    "version": "6.0.1",
+    "license": "MIT",
+    "source": "https://registry.npmjs.org/zip-stream/-/zip-stream-6.0.1.tgz",
+    "notices": [
+      "dependencies/node/zip-stream@6.0.1/LICENSE"
+    ]
+  }
+]

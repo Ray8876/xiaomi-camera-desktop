@@ -79,3 +79,20 @@ test('all layouts fit viewport and camera names are rendered as text', async ({p
     await expect.poll(async () => {const box = await page.locator('.camera-tile').last().boundingBox(); return box ? box.y + box.height : Infinity;}).toBeLessThanOrEqual(650);
   }
 });
+test('unreachable stream retries without clearing login or camera selection', async ({page}) => {
+  await fixture(page);
+  await expect(page.locator('.camera-tile')).toHaveCount(4);
+  await page.evaluate(() => {
+    const player = document.querySelector('mi-player');
+    const socket = new EventTarget(); socket.send = () => {}; socket.close = () => {};
+    player.ws = socket;
+    player.onopen();
+    socket.dispatchEvent(new MessageEvent('message', {data: JSON.stringify({type: 'error', value: 'read udp: i/o timeout'})}));
+  });
+  await expect(page.locator('.camera-tile').first().locator('.tile-status')).toContainText('连接中断');
+  await expect.poll(() => page.evaluate(() => window.fixtureCalls.some(c => c.action === 'player-event' && c.payload.event === 'reconnecting'))).toBe(true);
+  await expect(page.locator('#dashboard')).toBeVisible();
+  await expect(page.locator('#login')).toBeHidden();
+  expect(await page.evaluate(() => window.fixtureProfile.settings.slots[0].alias)).toBe('cam_0000000000000000');
+  expect(await page.evaluate(() => document.querySelector('mi-player').usingCompatible)).toBeFalsy();
+});

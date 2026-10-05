@@ -47,6 +47,18 @@
       {
         "from": "resources/ffmpeg-LICENSE.txt",
         "to": "licenses/ffmpeg-LICENSE.txt"
+      },
+      {
+        "from": "licenses",
+        "to": "licenses/dependencies-notices"
+      },
+      {
+        "from": "THIRD_PARTY_NOTICES.md",
+        "to": "licenses/THIRD_PARTY_NOTICES.md"
+      },
+      {
+        "from": "docs/FFMPEG-SOURCE.md",
+        "to": "licenses/FFMPEG-SOURCE.md"
       }
     ],
     "win": {
@@ -76,7 +88,10 @@
     },
     "mac": {
       "sign": "scripts/sign-mac.cjs",
-      "binaries": ["Contents/Resources/engine/go2rtc", "Contents/Resources/engine/ffmpeg"],
+      "binaries": [
+        "Contents/Resources/engine/go2rtc",
+        "Contents/Resources/engine/ffmpeg"
+      ],
       "target": [
         "dmg",
         "zip"

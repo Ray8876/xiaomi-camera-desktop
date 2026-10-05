@@ -2,7 +2,17 @@
 
 简单易用的小米摄像头客户端，支持 Windows 10/11 x64、macOS Apple 芯片及 Intel。安装包自带 go2rtc、Chromium 和 FFmpeg，安装后不需要配置服务或另外下载播放器。
 
-下载：[Windows 安装程序](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-win-x64.exe) · [Apple 芯片 Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-mac-arm64.dmg) · [Intel Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-mac-x64.dmg)。校验文件及说明见 [0.1.1 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.1)。
+下载：[0.1.0 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.0)。Windows 版已由用户反馈测试正常；**0.1.0 Mac 签名不完整，可能提示“已损坏”，暂不建议安装。Mac 修复代码已提交，0.1.1 尚未发布，暂停重新打包。**
+
+## 网络前提
+
+**电脑与摄像头必须位于可直接互通的局域网。当前客户端不提供米家 App 的外网云端中继播放。**
+
+- 使用手机热点、公司网络等其他网络，不能直接访问摄像头所在家庭局域网时，无法播放；登录成功或设备列表可见不代表视频可达。
+- 同一个 Wi-Fi 名称或相同 IP 网段不能证明互通。访客网络、AP 隔离、VLAN 或防火墙也可能阻止连接。不要仅凭 ping 或网段判断摄像头在线。
+- 小米登录、获取设备及每次连接所需的加密密钥仍需要联网访问小米服务；有登录缓存也不是完全离线播放。
+- 不可达时画面会提示连接中断并重试，不会自动改为云端中继。请先检查网络，再导出诊断日志。
+- 已补充本地无响应设备的协议超时与界面重连回归；真实摄像头跨网测试仍待实机验收。
 
 ## 使用
 
@@ -44,10 +54,16 @@ pnpm start
 pnpm build --mac --arm64
 ```
 
-Windows 上使用 `pnpm build --win --x64`。Intel Mac 用 `--mac --x64`。`TARGET_PLATFORM=win32|darwin` 和 `TARGET_ARCH=x64|arm64` 可指定引擎/FFmpeg目标。GitHub Actions 自动测试并构建三个系统架构的安装包。发布 tag 后生成含 SHA-256 的预发布版本。
+Windows 上使用 `pnpm build --win --x64`。Intel Mac 用 `--mac --x64`。`TARGET_PLATFORM=win32|darwin` 和 `TARGET_ARCH=x64|arm64` 可指定引擎/FFmpeg目标。为节约 Actions 配额，普通 main 提交不自动打包；仅手动运行工作流或发布版本 tag 时测试和构建安装包。
 
 完整 go2rtc 源码、补丁和许可证见 `engine/`。FFmpeg 校验值固定在构建脚本中。项目不包含真实账号、设备、生产配置或用户日志。
 
 ## 验收边界
 
-界面及模拟流程测试、打包验证不能代替真实摄像头验收。Windows 主机已上线，可先安装客户端试用；原有会话导入、小米实机登录、H.265/声音、16 路负载及登录后自启仍待验收。现有 go2rtc 保持原样。详见 `docs/ACCEPTANCE.md`。
+界面及模拟流程测试、打包验证不能代替真实摄像头验收。用户已反馈 Windows 客户端测试正常；该反馈未逐项确认 16 路长期负载、自启或跨网等所有边界。现有 go2rtc 保持原样。详见 `docs/ACCEPTANCE.md`。
+
+## 开源与许可证
+
+客户端原创代码使用 [MIT](LICENSE)；go2rtc 及 VideoRTC 保留 Alexey Khit 的 MIT 版权声明。FFmpeg 为单独调用的 GPLv3 程序，许可证不因本项目使用 MIT 而改变。完整说明见 [第三方声明](THIRD_PARTY_NOTICES.md)、[源码及构建说明](docs/FFMPEG-SOURCE.md) 和 [依赖许可证](licenses/README.md)。
+
+本项目是独立客户端，与小米没有关联，不承诺所有型号兼容。参与开发见 [CONTRIBUTING](CONTRIBUTING.md)，安全问题请按 [SECURITY](SECURITY.md) 私下报告；请勿在公开 Issue 上传账号、会话缓存或未脱敏日志。

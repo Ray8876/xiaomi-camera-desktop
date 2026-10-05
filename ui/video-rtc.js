@@ -1,5 +1,6 @@
 /**
  * VideoRTC v1.6.0 - Video player for go2rtc streaming application.
+ * Copyright (c) 2022 Alexey Khit. MIT License; see engine/LICENSE.
  *
  * All modern web technologies are supported in almost any browser except Apple Safari.
  *

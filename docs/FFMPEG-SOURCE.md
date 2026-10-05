@@ -21,3 +21,9 @@ Original binary: https://github.com/eugeneware/ffmpeg-static/releases/download/b
 SHA-256: `04e1307997530f9cf2fe35cba2ca7e8875ca91da02f89d6c7243df819c94ad00`.
 
 Distributor's detailed source, configuration and dependency information: https://github.com/eugeneware/ffmpeg-static/releases/download/b6.1.1/win32-x64.README (identifies https://github.com/FFmpeg/FFmpeg/commit/e38092ef93 as the FFmpeg source). The original GPL v3 license is copied to `resources/ffmpeg-LICENSE.txt`. The source/build documentation is included beside the Windows executable.
+
+## Redistribution records
+
+The client MIT license does not replace the FFmpeg GPL license or dependency copyrights. Windows distributor configuration and external library version records are preserved at `licenses/FFmpeg-Windows-README.txt`; GPLv3 text is at `licenses/FFmpeg-GPLv3.txt`. The Windows binary is redistributed unchanged, not built with the Mac script. Its FFmpeg source archive is available at https://codeload.github.com/FFmpeg/FFmpeg/tar.gz/e38092ef93 ; this archive alone does not include all statically linked external library sources. Consult the distributor records and upstream source repositories for those components when redistributing that binary.
+
+Mac source URLs and hashes above, plus `scripts/build-ffmpeg-mac.cjs`, identify all non-system libraries used by our minimal Mac build. The binary hash in the manifest is recorded before application signing; Mac signing changes executable bytes. Use release SHA256SUMS files to verify downloaded installers.

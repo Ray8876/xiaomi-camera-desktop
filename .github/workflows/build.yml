@@ -1,7 +1,6 @@
 name: Build desktop clients
 on:
   push:
-    branches: [main]
     tags: ['v*']
   workflow_dispatch:
 permissions:
@@ -72,11 +71,16 @@ jobs:
       - run: pnpm test
       - name: Engine regression tests
         working-directory: engine
-        run: go test ./internal/app ./internal/xiaomi ./pkg/h265 ./pkg/tutk ./pkg/xiaomi/miss/...
+        run: go test ./internal/app ./internal/xiaomi ./pkg/h265 ./pkg/tutk ./pkg/xiaomi ./pkg/xiaomi/miss/...
       - name: Install test browser
         run: pnpm exec playwright install chromium
       - name: UI flows
         run: pnpm exec playwright test
+      - name: Download Go module source for notices
+        working-directory: engine
+        run: go mod download
+      - name: Collect runtime dependency licenses
+        run: node scripts/collect-licenses.cjs
       - name: Package clients
         run: pnpm build ${{ matrix.target }} --publish never
       - name: Packaged native client smoke
