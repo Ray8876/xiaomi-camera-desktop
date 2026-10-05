@@ -25,14 +25,12 @@ function collect(kind, name, version, dir, license, source) {
 }
 const seen = new Set();
 function visitNode(name, parent) {
-  let dir = path.join(parent, 'node_modules', name);
-  if (!fs.existsSync(path.join(dir, 'package.json'))) {
-    dir = path.dirname(require.resolve(name, {paths: [parent]}));
-    while (!fs.existsSync(path.join(dir, 'package.json')) || !JSON.parse(fs.readFileSync(path.join(dir, 'package.json'))).name) {
-      const next = path.dirname(dir); if (next === dir) throw new Error(`Package metadata missing: ${name}`); dir = next;
-    }
-  }
+  const resolver = require('node:module').createRequire(path.join(parent, 'package.json'));
+  const candidates = resolver.resolve.paths(name + '/package.json').map(base => path.join(base, name));
+  let dir = candidates.find(candidate => fs.existsSync(path.join(candidate, 'package.json')));
+  if (!dir) throw new Error(`Package metadata missing: ${name}`);
   dir = fs.realpathSync(dir);
+  if (dir === root) throw new Error(`Resolved ${name} from ${parent} to project root`);
   if (seen.has(dir)) return; seen.add(dir);
   const pkg = JSON.parse(fs.readFileSync(path.join(dir, 'package.json')));
   collect('node', pkg.name, pkg.version, dir, pkg.license, `https://registry.npmjs.org/${pkg.name}/-/${pkg.name.split('/').pop()}-${pkg.version}.tgz`);
