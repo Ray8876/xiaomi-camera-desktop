@@ -81,6 +81,9 @@ jobs:
         run: pnpm build ${{ matrix.target }} --publish never
       - name: Packaged native client smoke
         run: node scripts/smoke-packaged.cjs
+      - name: Mac archive signature integrity
+        if: matrix.platform == 'darwin'
+        run: node scripts/verify-mac-artifacts.cjs
       - name: Artifact checksums
         run: node scripts/checksums.cjs
       - uses: actions/upload-artifact@v4
@@ -117,7 +120,8 @@ jobs:
           generate_release_notes: true
           files: release/*
           body: |
-            初版客户端：Windows x64、macOS Apple 芯片和 Intel。
+            客户端：Windows x64、macOS Apple 芯片和 Intel。
             安装包自带播放引擎、浏览器运行时和 FFmpeg。
-            Windows 真实摄像头、Mac 真实摄像头及 16 路负载验收待主机上线后完成。
-            初版未配置 Windows 代码签名或 Apple Developer ID 公证。
+            真实小米摄像头与 16 路实际负载仍需用户试用验收。
+            Mac 已补齐应用及嵌套组件的 ad-hoc 签名，并验证实际启动和 ZIP/DMG 签名完整性。
+            未配置 Windows 代码签名或 Apple Developer ID 公证；Mac 首次运行说明见 docs/MAC-FIRST-RUN.md。

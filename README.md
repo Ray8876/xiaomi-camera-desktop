@@ -2,7 +2,7 @@
 
 简单易用的小米摄像头客户端，支持 Windows 10/11 x64、macOS Apple 芯片及 Intel。安装包自带 go2rtc、Chromium 和 FFmpeg，安装后不需要配置服务或另外下载播放器。
 
-下载：[Windows 安装程序](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-win-x64.exe) · [Apple 芯片 Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-mac-arm64.dmg) · [Intel Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.0/Mi-Camera-Desktop-0.1.0-mac-x64.dmg)。校验文件及说明见 [0.1.0 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.0)。
+下载：[Windows 安装程序](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-win-x64.exe) · [Apple 芯片 Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-mac-arm64.dmg) · [Intel Mac](https://github.com/Ray8876/xiaomi-camera-desktop/releases/download/v0.1.1/Mi-Camera-Desktop-0.1.1-mac-x64.dmg)。校验文件及说明见 [0.1.1 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.1)。
 
 ## 使用
 
@@ -29,7 +29,7 @@
 - 自动模式优先直接播放。解码不支持时尝试兼容转码，也可手动选“兼容”。多路兼容转码会增加 CPU 使用率。
 - 地区默认中国大陆，摄像头和电脑应能直接连接。小米通信及播放不通过环境代理。
 - 退出客户端会结束其播放引擎和转码子进程。
-- macOS 需 12 Monterey 或更新版本。初版尚未配置 Apple Developer ID 公证及 Windows 代码签名，下载后系统可能提示未识别的开发者。
+- macOS 需 12 Monterey 或更新版本。安装包未配置 Apple Developer ID 公证及 Windows 代码签名。Mac 0.1.1 已补齐 ad-hoc 签名，首次打开方法见 [Mac 首次运行](docs/MAC-FIRST-RUN.md)。0.1.0 Mac 签名不完整，请使用新版。
 
 ## 开发与打包
 
