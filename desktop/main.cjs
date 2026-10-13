@@ -4,8 +4,9 @@ const path = require('node:path');
 const YAML = require('yaml');
 const {Logs} = require('./logs.cjs');
 const {Engine} = require('./engine.cjs');
-const {normalize, atomicWrite, aliasFor} = require('./state.cjs');
+const {normalize, atomicWrite, aliasFor, sourceForQuality} = require('./state.cjs');
 const {createGateway} = require('./gateway.cjs');
+const {backupUnreadableSession} = require('./session.cjs');
 const isSmoke = process.argv.includes('--smoke-test');
 if (isSmoke) app.setPath('userData', path.join(app.getPath('temp'), 'mi-camera-smoke-' + process.pid));
 app.setName('Mi Camera Desktop');
@@ -39,9 +40,7 @@ function cachedCameras() {
 function publicProfile() {return {settings: state, cameras: cameras.map(({alias, name}) => ({alias, name})), loggedIn: Object.keys(engine.saved.xiaomi || {}).length > 0, version: app.getVersion(), platform: process.platform};}
 async function ensureVariants(camera) {
   for (const quality of ['', '_hd', '_sd']) {
-    const u = new URL(camera.source);
-    if (quality) u.searchParams.set('subtype', quality === '_hd' ? '0' : '1');
-    const source = u.toString(), alias = camera.alias + quality;
+    const source = sourceForQuality(camera.source, quality.slice(1)), alias = camera.alias + quality;
     await putStream(alias, source);
     await putStream(alias + '_compatible', `ffmpeg:${alias}#video=h264#audio=opus`);
   }
@@ -91,7 +90,18 @@ async function boot() {
   stateFile = path.join(dir, 'settings.json');
   try {state = normalize(JSON.parse(fs.readFileSync(stateFile, 'utf8')));} catch {state = normalize();}
   const engineDir = app.isPackaged ? path.join(process.resourcesPath, 'engine') : path.join(__dirname, '..', 'resources', `${process.platform}-${process.arch}`);
-  engine = new Engine({dir: engineDir, vaultPath: path.join(dir, 'session.enc'), safeStorage, logs, onRestart: status => win?.webContents.send('engine-status', status || 'restarted')});
+  const engineOptions = {dir: engineDir, vaultPath: path.join(dir, 'session.enc'), safeStorage, logs, onRestart: status => win?.webContents.send('engine-status', status || 'restarted')};
+  try {engine = new Engine(engineOptions);} catch (error) {
+    if (error.code !== 'SESSION_CACHE_UNREADABLE' || isSmoke) throw error;
+    const choice = await dialog.showMessageBox({type: 'warning', title: '登录缓存无法读取',
+      message: '登录缓存无法解密，可能已损坏或来自其他系统账户。',
+      detail: '你可以退出后使用原系统账户打开，或备份加密缓存后重新登录。重新登录会保留布局和声音设置。',
+      buttons: ['退出', '备份缓存并重新登录'], defaultId: 0, cancelId: 0});
+    if (choice.response !== 1) {app.quit(); return;}
+    backupUnreadableSession(dir);
+    logs.write('warn', 'session_cache_backed_up');
+    engine = new Engine(engineOptions);
+  }
   const namesFile = path.join(dir, 'camera-names.enc');
   if (fs.existsSync(namesFile)) try {engine.savedNames = JSON.parse(safeStorage.decryptString(fs.readFileSync(namesFile)));} catch {logs.write('warn', 'camera_names_unavailable');}
   cameras = cachedCameras(); logs.addSecrets(cameras.map(c => c.name));

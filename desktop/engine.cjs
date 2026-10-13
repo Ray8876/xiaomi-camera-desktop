@@ -13,13 +13,13 @@ async function freePort() {
   });
 }
 class Engine {
-  constructor({dir, vaultPath, safeStorage, logs, onRestart}) {
-    Object.assign(this, {dir, vaultPath, safeStorage, logs, onRestart});
+  constructor({dir, vaultPath, safeStorage, logs, onRestart, startupTimeout = 10000, stabilityWindow = 60000}) {
+    Object.assign(this, {dir, vaultPath, safeStorage, logs, onRestart, startupTimeout, stabilityWindow});
     this.saved = {}; this.child = null; this.stopped = true; this.restarts = 0; this.sessionRevision = 0;
     if (!safeStorage.isEncryptionAvailable()) throw new Error('系统加密服务不可用，无法安全保存登录。');
     if (fs.existsSync(vaultPath)) {
       try {this.saved = YAML.parse(safeStorage.decryptString(fs.readFileSync(vaultPath))) || {};}
-      catch {throw new Error('登录缓存无法解密。请在原系统账户下打开，或在设置中清除缓存后重新登录。');}
+      catch {const error = new Error('登录缓存无法解密。请使用原系统账户打开或备份缓存后重新登录。'); error.code = 'SESSION_CACHE_UNREADABLE'; throw error;}
     }
   }
   persist(encoded) {
@@ -81,8 +81,11 @@ class Engine {
       while ((idx = stderr.indexOf('\n')) !== -1) {this.logLine(stderr.slice(0, idx)); stderr = stderr.slice(idx + 1);}
       if (stderr.length > 65536) stderr = '';
     });
-    child.on('error', () => this.logs.write('error', 'engine_spawn_failed'));
+    let spawnFailed = false;
+    child.on('error', () => {spawnFailed = true; if (this.child === child) this.child = null; this.logs.write('error', 'engine_spawn_failed');});
+    child.stdin.on('error', () => this.logs.write('warn', 'engine_config_pipe_closed'));
     child.on('exit', (code, signal) => {
+      clearTimeout(this.stableTimer);
       if (this.child === child) this.child = null;
       this.logs.write(this.stopped ? 'info' : 'error', 'engine_exit', {code, signal});
       if (!this.stopped && this.restarts++ < 5) {
@@ -92,25 +95,34 @@ class Engine {
       } else if (!this.stopped) this.onRestart?.('failed');
     });
     child.stdin.end(YAML.stringify(config));
-    for (let i = 0; i < 100; i++) {
-      if (!this.child) throw new Error('播放引擎启动失败，请导出日志。');
-      try {const response = await this.request('/api'); if (response.ok) {this.logs.write('info', 'engine_ready'); return;}} catch {}
-      await delay(100);
+    const deadline = Date.now() + this.startupTimeout;
+    while (Date.now() < deadline) {
+      if (spawnFailed || this.child !== child || this.stopped) throw new Error('播放引擎启动失败，请导出日志。');
+      try {const response = await this.request('/api', {timeout: Math.min(500, Math.max(1, deadline - Date.now()))});
+        if (response.ok) {
+          // Limit rapid crash loops, while allowing recovery after stable use.
+          this.stableTimer = setTimeout(() => {if (this.child === child) this.restarts = 0;}, this.stabilityWindow);
+          this.stableTimer.unref();
+          this.logs.write('info', 'engine_ready'); return;
+        }
+      } catch {}
+      await delay(Math.min(100, Math.max(0, deadline - Date.now())));
     }
+    await this.stop();
     throw new Error('播放引擎启动超时，请导出日志。');
   }
   logLine(line) {
     if (!line) return;
     try {
       const data = JSON.parse(line);
-      this.logs.write(data.level || 'info', 'engine', {module: data.module, message: data.message, error: data.error});
+      this.logs.write(data.level || 'info', 'engine', Object.fromEntries(['module', 'message', 'error', 'model', 'codec', 'sequence', 'source_payload_len', 'avcc_payload_len'].filter(key => Object.hasOwn(data, key)).map(key => [key, data[key]])));
     } catch {this.logs.write('error', 'engine_stderr', {message: line});}
   }
-  request(route, options = {}) {
-    return fetch(this.base + route, {...options, headers: {...options.headers, Authorization: this.authorization}, signal: AbortSignal.timeout(45000)});
+  request(route, {timeout = 45000, ...options} = {}) {
+    return fetch(this.base + route, {...options, headers: {...options.headers, Authorization: this.authorization}, signal: options.signal || AbortSignal.timeout(timeout)});
   }
   async stop() {
-    this.stopped = true; clearTimeout(this.retryTimer);
+    this.stopped = true; clearTimeout(this.retryTimer); clearTimeout(this.stableTimer);
     const child = this.child;
     if (!child) return;
     await new Promise(resolve => {

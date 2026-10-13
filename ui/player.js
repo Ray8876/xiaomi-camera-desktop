@@ -46,7 +46,7 @@ export class MiPlayer extends VideoRTC {
     // Release both transports before reconnecting; only one connection per tile.
     super.ondisconnect(); clearTimeout(this.reconnectTID);
     const delay = Math.min(3000 * 2 ** this.attempts++, 60000);
-    this.status(`连接中断，${Math.ceil(delay / 1000)} 秒后重试`); this.report('reconnecting');
+    this.status(`连接中断，${Math.ceil(delay / 1000)} 秒后重试。请检查电脑与摄像头是否局域网互通`); this.report('reconnecting');
     this.dispatchEvent(new CustomEvent('player-live', {detail: false}));
     this.reconnectTID = setTimeout(() => {this.reconnectTID = 0; if (!this.disposed) this.onconnect();}, delay);
     return true;

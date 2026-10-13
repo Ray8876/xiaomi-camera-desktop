@@ -22,4 +22,9 @@ function aliasFor(source) {
   if (u.protocol !== 'xiaomi:' || !u.searchParams.get('did')) throw new Error('Invalid Xiaomi camera');
   return 'cam_' + crypto.createHash('sha256').update([u.username, u.password, u.searchParams.get('did')].join(':')).digest('hex').slice(0, 16);
 }
-module.exports = {DEFAULTS, LAYOUTS, normalize, atomicWrite, aliasFor};
+function sourceForQuality(source, quality) {
+  const u = new URL(source);
+  if (quality === 'hd' || quality === 'sd') u.searchParams.set('subtype', quality);
+  return u.toString();
+}
+module.exports = {sourceForQuality, DEFAULTS, LAYOUTS, normalize, atomicWrite, aliasFor};

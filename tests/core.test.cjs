@@ -48,3 +48,66 @@ test('diagnostic ZIP includes sanitized logs without session/config files', asyn
     assert.equal(rows.length, 501, 'Export must retain the complete daily log beyond 32 KiB');
   } finally {fs.rmSync(dir, {recursive: true, force: true});}
 });
+test('named Xiaomi quality preserves model-specific HD and legacy SD behavior', () => {
+  const {sourceForQuality} = require('../desktop/state.cjs');
+  const source = 'xiaomi://100:cn@192.0.2.1?did=123&model=chuangmi.camera.046c04&subtype=3';
+  assert.equal(new URL(sourceForQuality(source, 'hd')).searchParams.get('subtype'), 'hd');
+  assert.equal(new URL(sourceForQuality(source, 'sd')).searchParams.get('subtype'), 'sd');
+  assert.equal(new URL(sourceForQuality(source, 'auto')).searchParams.get('subtype'), '3');
+});
+test('unreadable session recovery preserves encrypted evidence and user settings', () => {
+  const {backupUnreadableSession} = require('../desktop/session.cjs');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-recovery-'));
+  try {
+    fs.writeFileSync(path.join(dir, 'session.enc'), Buffer.from([0, 1, 2, 3]));
+    fs.writeFileSync(path.join(dir, 'camera-names.enc'), Buffer.from([4, 5, 6]));
+    fs.writeFileSync(path.join(dir, 'settings.json'), 'saved-layout');
+    const backups = backupUnreadableSession(dir);
+    assert.equal(backups.length, 2);
+    assert.deepEqual(fs.readFileSync(backups[0]), Buffer.from([0, 1, 2, 3]));
+    assert.deepEqual(fs.readFileSync(backups[1]), Buffer.from([4, 5, 6]));
+    assert.equal(fs.existsSync(path.join(dir, 'session.enc')), false);
+    assert.equal(fs.readFileSync(path.join(dir, 'settings.json'), 'utf8'), 'saved-layout');
+    assert.ok(backups.every(file => file.endsWith('.enc')));
+  } finally {fs.rmSync(dir, {recursive: true, force: true});}
+});
+test('daily logging cap is enforced before appending a whole diagnostic row', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-cap-'));
+  try {
+    const logs = new Logs(dir, () => new Date('2026-10-13T12:00:00Z'));
+    const file = path.join(dir, '2026-10-13.jsonl');
+    fs.writeFileSync(file, Buffer.alloc(10 * 1024 * 1024 - 20));
+    logs.write('warn', 'retrying', {slot: 0});
+    assert.equal(fs.statSync(file).size, 10 * 1024 * 1024 - 20);
+  } finally {fs.rmSync(dir, {recursive: true, force: true});}
+});
+test('diagnostic export recovers from write failure and serializes repeated exports', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-export-failure-'));
+  try {
+    const logs = new Logs(path.join(dir, 'logs')); logs.write('warn', 'transport_timeout', {slot: 2});
+    await assert.rejects(logs.export(path.join(dir, 'absent', 'report.zip'), {}));
+    const target = path.join(dir, 'report.zip');
+    await Promise.all([logs.export(target, {version: 'first'}), logs.export(target, {version: 'second'})]);
+    const zip = new (require('adm-zip'))(target);
+    assert.equal(JSON.parse(zip.readAsText('diagnostics.json')).version, 'second');
+    assert.equal(fs.existsSync(target + '.tmp'), false);
+  } finally {fs.rmSync(dir, {recursive: true, force: true});}
+});
+test('export keeps numeric packet sequence valid and redacts escaped legacy strings', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'mi-export-structured-'));
+  try {
+    const logs = new Logs(path.join(dir, 'logs'));
+    logs.addSecrets(['name"with\\escape']);
+    logs.write('warn', 'packet', {sequence: 12345678, source_payload_len: 42});
+    const file = path.join(logs.dir, fs.readdirSync(logs.dir)[0]);
+    fs.appendFileSync(file, JSON.stringify({detail: {message: 'name"with\\escape', token: 'legacy-token'}}) + '\n');
+    const target = path.join(dir, 'log.zip');
+    await logs.export(target, {numericDiagnostic: 12345678});
+    const zip = new (require('adm-zip'))(target);
+    const rows = zip.readAsText(zip.getEntries().find(e => e.entryName.endsWith('.jsonl'))).trim().split('\n').map(row => JSON.parse(row));
+    assert.equal(rows[0].detail.sequence, 12345678);
+    assert.equal(rows[1].detail.message, '[redacted]');
+    assert.equal(rows[1].detail.token, '[redacted]');
+    assert.equal(JSON.parse(zip.readAsText('diagnostics.json')).numericDiagnostic, 12345678);
+  } finally {fs.rmSync(dir, {recursive: true, force: true});}
+});
