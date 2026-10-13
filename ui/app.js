@@ -3,7 +3,8 @@ const $ = id => document.getElementById(id);
 const layouts = [1, 2, 4, 6, 9, 12, 16];
 const qualityNames = {auto: '自动', hd: '高清', sd: '流畅', compatible: '兼容'};
 let profile, settings, challenge = null, toastTimer, saveQueue = Promise.resolve(), saveRevision = 0;
-let refreshBusy = false, spotlight = null;
+let refreshBusy = false, spotlight = null, fullscreenTimer, cursorTimer;
+const tileControlTimers = new WeakMap();
 const api = async (action, payload) => {
   const result = await window.mi.invoke(action, payload);
   if (result?.error) throw new Error(result.error);
@@ -35,7 +36,7 @@ function showProfile() {
     disposePlayers(); $('wall').replaceChildren(); $('login-region').value = settings.region;
   }
 }
-function disposePlayers() {document.querySelectorAll('mi-player').forEach(player => player.dispose());}
+function disposePlayers() {document.querySelectorAll('.camera-tile').forEach(tile => clearTimeout(tileControlTimers.get(tile))); document.querySelectorAll('mi-player').forEach(player => player.dispose());}
 function select(options, current, label) {
   const el = document.createElement('select'); el.setAttribute('aria-label', label);
   for (const [value, name] of options) {const o = document.createElement('option'); o.value = value; o.textContent = name; el.append(o);}
@@ -47,10 +48,11 @@ function button(text, title, callback) {
 function renderWall() {
   spotlight = null; disposePlayers(); $('wall').replaceChildren();
   const cols = settings.layout === 1 ? 1 : settings.layout === 2 || settings.layout === 4 ? 2 : settings.layout <= 9 ? 3 : 4;
-  const rows = Math.ceil(settings.layout / cols);
+  const rows = settings.layout === 6 ? 3 : Math.ceil(settings.layout / cols);
+  $('wall').dataset.layout = String(settings.layout);
   $('wall').style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
   $('wall').style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
-  $('layouts').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', Number(b.dataset.layout) === settings.layout));
+  document.querySelectorAll('button[data-layout]').forEach(b => b.setAttribute('aria-pressed', Number(b.dataset.layout) === settings.layout));
   for (let i = 0; i < settings.layout; i++) renderTile(i);
   $('wall-status').textContent = `${settings.layout} 格画面 · 双击画面放大 · 状态自动保存`;
 }
@@ -58,6 +60,8 @@ function renderTile(index) {
   const existing = $('wall').querySelector(`[data-slot="${index}"]`);
   const slot = settings.slots[index], camera = profile.cameras.find(c => c.alias === slot.alias);
   const tile = document.createElement('article'); tile.className = 'camera-tile'; tile.dataset.slot = index;
+  tile.addEventListener('pointermove', () => revealTileControls(tile));
+  tile.addEventListener('pointerleave', () => {clearTimeout(tileControlTimers.get(tile)); tile.classList.remove('controls-visible');});
   const stage = document.createElement('div'); stage.className = 'tile-stage'; tile.append(stage);
   if (camera) {
     const player = document.createElement('mi-player'); player.slotIndex = index; player.wantedMuted = slot.muted; player.fit = settings.fit;
@@ -87,9 +91,34 @@ function renderTile(index) {
     const text = document.createElement('p'); text.textContent = slot.alias ? '摄像头暂未发现，可刷新设备或重新选择' : `第 ${index + 1} 格 · 选择一台摄像头`;
     const add = button('选择摄像头', '选择摄像头', () => openCameraEditor(index)); add.className = 'secondary'; empty.append(glyph, text, add); stage.append(empty);
   }
-  if (existing) {existing.querySelector('mi-player')?.dispose(); existing.replaceWith(tile);}
+  if (existing) {
+    if (spotlight === existing) {tile.classList.add('spotlight'); spotlight = tile;}
+    clearTimeout(tileControlTimers.get(existing)); existing.querySelector('mi-player')?.dispose(); existing.replaceWith(tile);}
   else $('wall').append(tile);
 }
+function revealTileControls(tile) {
+  tile.classList.add('controls-visible'); clearTimeout(tileControlTimers.get(tile));
+  tileControlTimers.set(tile, setTimeout(() => tile.classList.remove('controls-visible'), 2400));
+}
+function setFullscreen(active) {
+  document.body.classList.toggle('pure-fullscreen', active);
+  if (!active) {
+    clearTimeout(fullscreenTimer); clearTimeout(cursorTimer);
+    document.body.classList.remove('fullscreen-controls-visible', 'cursor-active');
+  }
+}
+async function toggleFullscreen(payload) {
+  try {const result = await api('fullscreen', payload); setFullscreen(result.fullscreen === true);} catch (error) {toast(error.message);}
+}
+document.addEventListener('pointermove', ev => {
+  if (!document.body.classList.contains('pure-fullscreen')) return;
+  document.body.classList.add('cursor-active'); clearTimeout(cursorTimer);
+  cursorTimer = setTimeout(() => document.body.classList.remove('cursor-active'), 2400);
+  if (ev.clientY <= 48 || ev.target.closest('#fullscreen-controls')) {
+    document.body.classList.add('fullscreen-controls-visible'); clearTimeout(fullscreenTimer);
+    fullscreenTimer = setTimeout(() => document.body.classList.remove('fullscreen-controls-visible'), 2400);
+  }
+});
 function magnify(tile) {
   if (spotlight === tile) {tile.classList.remove('spotlight'); spotlight = null; return;}
   spotlight?.classList.remove('spotlight'); spotlight = tile; tile.classList.add('spotlight');
@@ -141,11 +170,17 @@ $('import-login').onclick = async () => {
   try {const result = await api('import'); if (!result.canceled) {adopt(result); showProfile(); await refresh();}} catch(error) {$('login-error').textContent = error.message; $('login-error').hidden = false;}
 };
 for (const layout of layouts) {
-  const b = button(String(layout), `${layout} 格画面`, () => {settings.layout = layout; save(); renderWall();}); b.dataset.layout = layout; $('layouts').append(b);
+  for (const id of ['layouts', 'fullscreen-layouts']) {
+    const b = button(String(layout), `${layout} 格画面`, () => {settings.layout = layout; save(); renderWall();}); b.dataset.layout = layout; $(id).append(b);
+  }
 }
 $('refresh').onclick = refresh;
 $('banner-close').onclick = () => banner('');
-$('fullscreen').onclick = () => api('fullscreen');
+$('fullscreen').onclick = () => toggleFullscreen();
+$('exit-fullscreen').onclick = () => toggleFullscreen({exit: true});
+$('fullscreen-cameras').onclick = () => $('choose-cameras').click();
+$('fullscreen-settings').onclick = () => $('settings-open').click();
+$('fullscreen-mute').onclick = () => $('mute-all').click();
 $('choose-cameras').onclick = () => openCameraEditor();
 $('fill-slots').onclick = () => {
   for (let i = 0; i < settings.layout; i++) settings.slots[i] = {...settings.slots[i], alias: profile.cameras[i]?.alias || null, muted: true};
@@ -181,9 +216,10 @@ async function exportLogs() {try {const result = await api('logs'); if (result.o
 $('export-logs').onclick = exportLogs; $('login-logs').onclick = exportLogs;
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => $(b.dataset.close).close());
 document.addEventListener('keydown', ev => {
-  if (ev.key === 'F11') {ev.preventDefault(); api('fullscreen');}
+  if (ev.key === 'F11') {ev.preventDefault(); toggleFullscreen();}
   if (ev.key === 'Escape' && spotlight) {spotlight.classList.remove('spotlight'); spotlight = null;}
-  else if (ev.key === 'Escape' && !document.querySelector('dialog[open]')) api('fullscreen', {exit: true});
+  else if (ev.key === 'Escape' && !document.querySelector('dialog[open]')) toggleFullscreen({exit: true});
 });
 window.mi.onEngine(status => {if (status === 'failed') banner('播放引擎无法恢复，请重启客户端并导出日志。'); else {banner('播放引擎已恢复，正在重新连接画面。'); renderWall();}});
-try {adopt(await api('profile')); showProfile(); if (profile.loggedIn) setTimeout(refresh, 1000);} catch(error) {toast(error.message); $('login').hidden = false;}
+window.mi.onFullscreen?.(setFullscreen);
+try {adopt(await api('profile')); setFullscreen(profile.fullscreen === true); showProfile(); if (profile.loggedIn) setTimeout(refresh, 1000);} catch(error) {toast(error.message); $('login').hidden = false;}

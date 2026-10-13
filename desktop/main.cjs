@@ -37,7 +37,7 @@ function cachedCameras() {
   const names = engine.savedNames || {};
   return items.map(item => ({...item, name: names[item.alias] || item.name}));
 }
-function publicProfile() {return {settings: state, cameras: cameras.map(({alias, name}) => ({alias, name})), loggedIn: Object.keys(engine.saved.xiaomi || {}).length > 0, version: app.getVersion(), platform: process.platform};}
+function publicProfile() {return {settings: state, cameras: cameras.map(({alias, name}) => ({alias, name})), loggedIn: Object.keys(engine.saved.xiaomi || {}).length > 0, version: app.getVersion(), platform: process.platform, fullscreen: !!win?.isFullScreen()};}
 async function ensureVariants(camera) {
   for (const quality of ['', '_hd', '_sd']) {
     const source = sourceForQuality(camera.source, quality.slice(1)), alias = camera.alias + quality;
@@ -116,6 +116,8 @@ async function boot() {
   win.webContents.setWindowOpenHandler(() => ({action: 'deny'}));
   win.webContents.on('will-navigate', (ev, url) => {if (url !== gateway.origin + '/') ev.preventDefault();});
   win.webContents.on('render-process-gone', (_ev, info) => logs.write('error', 'renderer_gone', {reason: info.reason}));
+  win.on('enter-full-screen', () => win.webContents.send('fullscreen-state', true));
+  win.on('leave-full-screen', () => win.webContents.send('fullscreen-state', false));
   win.on('close', () => logs.write('info', 'window_closed'));
   ipcMain.handle('mi', (event, action, payload) => {
     if (event.sender !== win.webContents || event.senderFrame.url !== gateway.origin + '/') throw new Error('Unauthorized caller');

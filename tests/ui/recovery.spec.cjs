@@ -35,5 +35,10 @@ test('startup recovery backs up unreadable cache and opens login with saved sett
     expect(fs.readFileSync(path.join(dir, backups.find(name => name.startsWith('session.enc'))), 'utf8')).toBe('fixture-unreadable-session');
     expect(fs.existsSync(path.join(dir, 'session.enc'))).toBe(false);
     expect(JSON.parse(fs.readFileSync(path.join(dir, 'settings.json'))).layout).toBe(9);
+    // Verify the real native window events reach the renderer, including OS controls.
+    await client.evaluate(({BrowserWindow}) => BrowserWindow.getAllWindows()[0].setFullScreen(true));
+    await expect(page.locator('body')).toHaveClass(/pure-fullscreen/);
+    await client.evaluate(({BrowserWindow}) => BrowserWindow.getAllWindows()[0].setFullScreen(false));
+    await expect(page.locator('body')).not.toHaveClass(/pure-fullscreen/);
   } finally {if (client) await client.close(); fs.rmSync(dir, {recursive: true, force: true});}
 });

@@ -28,6 +28,13 @@
       <footer class="statusbar"><span id="wall-status">默认静音 · 双击画面放大</span><span>Esc 退出全屏 <b>·</b> F11 全屏</span></footer>
     </main>
   </div>
+  <nav id="fullscreen-controls" aria-label="全屏控制">
+    <div id="fullscreen-layouts" class="segmented" role="group" aria-label="全屏画面布局"></div>
+    <button id="fullscreen-mute" class="text-button">全部静音</button>
+    <button id="fullscreen-cameras" class="text-button">管理画面</button>
+    <button id="fullscreen-settings" class="text-button">设置</button>
+    <button id="exit-fullscreen" class="secondary compact">退出全屏</button>
+  </nav>
   <dialog id="settings-dialog"><div class="dialog-head"><div><span class="eyebrow">按你的习惯</span><h2>设置</h2></div><button class="dialog-close" data-close="settings-dialog" aria-label="关闭设置">×</button></div><div class="settings-body">
     <h3>启动与播放</h3><label class="setting-row"><span><b>开机自启</b><small>登录电脑后自动打开客户端</small></span><input type="checkbox" id="auto-start" class="switch"></label>
     <label class="setting-row"><span><b>启动后自动全屏</b><small>每次打开客户端时进入全屏</small></span><input type="checkbox" id="auto-fullscreen" class="switch"></label>
