@@ -2,7 +2,7 @@
 
 简单易用的小米摄像头客户端，支持 Windows 10/11 x64、macOS Apple 芯片及 Intel。安装包自带 go2rtc、Chromium 和 FFmpeg，安装后不需要配置服务或另外下载播放器。
 
-下载：[0.1.0 预发布页](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.0)。Windows 版已由用户反馈测试正常；**0.1.0 Mac 签名不完整，可能提示“已损坏”，暂不建议安装。Mac 修复和后续完善已提交，下一版 0.1.2 安装包尚未发布，暂停重新打包。**
+下载：[0.1.2 试用版](https://github.com/Ray8876/xiaomi-camera-desktop/releases/tag/v0.1.2)。包含 Windows x64、Mac Apple 芯片和 Intel 安装包。0.1.0 Mac 签名不完整，请使用新版；0.1.2 真实摄像头和首次安装仍需实机验收。
 
 ## 网络前提
 
@@ -42,7 +42,7 @@
 - 自动模式优先直接播放。解码不支持时尝试兼容转码，也可手动选“兼容”。多路兼容转码会增加 CPU 使用率。
 - 地区默认中国大陆，摄像头和电脑应能直接连接。小米通信及播放不通过环境代理。
 - 退出客户端会结束其播放引擎和转码子进程。
-- macOS 需 12 Monterey 或更新版本。安装包未配置 Apple Developer ID 公证及 Windows 代码签名。Mac 0.1.1 已补齐 ad-hoc 签名，首次打开方法见 [Mac 首次运行](docs/MAC-FIRST-RUN.md)。0.1.0 Mac 签名不完整，请使用新版。
+- macOS 需 12 Monterey 或更新版本。安装包未配置 Apple Developer ID 公证及 Windows 代码签名。Mac 0.1.2 已补齐 ad-hoc 签名，首次打开方法见 [Mac 首次运行](docs/MAC-FIRST-RUN.md)。0.1.0 Mac 签名不完整，请使用新版。
 
 ## 开发与打包
 
@@ -71,4 +71,4 @@ Windows 上使用 `pnpm build --win --x64`。Intel Mac 用 `--mac --x64`。`TARG
 
 本项目是独立客户端，与小米没有关联，不承诺所有型号兼容。参与开发见 [CONTRIBUTING](CONTRIBUTING.md)，安全问题请按 [SECURITY](SECURITY.md) 私下报告；请勿在公开 Issue 上传账号、会话缓存或未脱敏日志。
 
-当前代码完善情况及未发布改动见 [CHANGELOG](CHANGELOG.md)，待实机确认的事项见 [验收清单](docs/ACCEPTANCE.md)。
+当前代码完善情况及更新记录见 [CHANGELOG](CHANGELOG.md)，待实机确认的事项见 [验收清单](docs/ACCEPTANCE.md)。
